@@ -40,8 +40,8 @@ Usage of the Vagrant Box
 ------------------------
 
 1. Clone this repository to some local directory
-2. Run `vagrant up` to bring the machine up
-3. Run `vagrant ssh` to ssh into the machine
+1. Run `vagrant up` to bring the machine up
+1. Run `vagrant ssh` to ssh into the machine
 
 
 
@@ -50,11 +50,29 @@ Project Roadmap
 
 The following "epics" shall be achieved
 
+1. Installing all necessary Chef tools (ChefDK)
 1. Setting up a basic Jenkins Server
-2. Installing necessary plugins for seed jobs and the Jenkins pipeline plugin
-3. Configuring a seed job for the TYPO3 cookbooks (from Github)
-4. Configuring a seed job for the TYPO3 Chef Repository (from Gerrit)
-5. Managing Jenkins jobs to push the cookbooks to the Chef Server
+1. Installing necessary plugins for seed jobs and the Jenkins pipeline plugin
+1. Configuring a seed job for the TYPO3 cookbooks (from Github)
+1. Configuring a seed job for the TYPO3 Chef Repository (from Gerrit)
+1. Managing Jenkins jobs to push the cookbooks to the Chef Server
+
+
+
+Jenkins Job Provisioning with Chef
+----------------------------------
+
+Our goal is to provision a Jenkins server that has a build pipeline for every Chef cookbook developed by the TYPO3 server team. The cookbooks can be found in this Github organization: [https://github.com/TYPO3-cookbooks/](https://github.com/TYPO3-cookbooks/). The rough sketch of the provisioning is as follows:
+
+1. Chef provisions a Jenkins server with the [job-dsl plugin](https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin) and the [pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin)
+
+1. Chef provisions a seed job (a job-dsl job) that
+
+    1. uses the Github API to read all repositories from the TYPO3-cookbooks organization
+
+    1. creates a pipeline job for each of these repositories
+
+Afterwards we have a Jenkins server with a build pipeline for every cookbook in the TYPO3-cookbooks organization.
 
 
 
