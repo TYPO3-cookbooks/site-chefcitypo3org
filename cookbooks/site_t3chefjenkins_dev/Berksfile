@@ -1,0 +1,5 @@
+source 'https://supermarket.chef.io'
+
+metadata
+
+cookbook 'rbenv', github: 'RiotGamesCookbooks/rbenv-cookbook', tag: '1.7.1'
