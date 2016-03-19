@@ -122,7 +122,7 @@ repos.findAll{ r -> r.name =~ repoFilter }.each {
   buildPipelineView(jobBaseName) {
     filterBuildQueue()
     filterExecutors()
-    title('Chef: ${jobBaseName} CI Pipeline')
+    title("Chef: ${jobBaseName} CI Pipeline")
     displayedBuilds(5)
     selectedJob("${jobBaseName}-clone")
     alwaysAllowManualTrigger()
