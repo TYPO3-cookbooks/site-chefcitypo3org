@@ -1,0 +1,132 @@
+def organization = 'TYPO3-cookbooks'
+def userType = 'orgs' // 'orgs' or 'users'
+def repoFilter = ~/.*/
+
+repoApi = new URL("https://api.github.com/${userType}/${organization}/repos")
+repos = new groovy.json.JsonSlurper().parse(repoApi.newReader())
+
+repos.findAll{ r -> r.name =~ repoFilter }.each {
+
+  def repoName = it.name
+  def jobBaseName = "cookbook-${repoName}".replaceAll('/','-')
+  def branchName = "master"
+
+  job("${jobBaseName}-clone") {
+    displayName "Cookbook: $repoName ($branchName) CLONE"
+
+    scm {
+      github("${organization}/${repoName}", branchName)
+    }
+
+    triggers() {
+      githubPush()
+      pullRequest {
+        cron('H/5 * * * *')
+        useGitHubHooks()
+        permitAll()
+      }
+    }
+
+    publishers {
+      publishCloneWorkspace("**")
+
+      downstream("${jobBaseName}-syntax")
+
+      aggregateDownstreamTestResults()
+    }
+  }
+
+  job("${jobBaseName}-syntax") {
+    displayName "Cookbook: $repoName ($branchName) UNIT TESTS"
+
+    scm {
+      cloneWorkspace("${jobBaseName}-clone")
+    }
+
+    steps {
+      shell("foodcritic . -f all")
+    }
+
+    publishers {
+
+      publishCloneWorkspace("**")
+
+      downstream("${jobBaseName}-test")
+    }
+
+  }
+
+  job("${jobBaseName}-test") {
+    displayName "Cookbook: $repoName ($branchName) INTEGRATION TEST"
+
+    scm {
+      cloneWorkspace("${jobBaseName}-clone")
+    }
+
+    // ManagedFile plugin, not yet supported via DSL
+    configure { project ->
+      project / builders / 'org.jenkinsci.plugins.configfiles.builder.ConfigFileBuildStep'(plugin: 'config-file-provider@2.7') {
+        managedFiles {
+          'org.jenkinsci.plugins.configfiles.buildwrapper.ManagedFile' {
+            fileId 'org.jenkinsci.plugins.configfiles.custom.CustomConfig1388152867141'
+            targetLocation '.kitchen.local.yml'
+          }
+        }
+      }
+    }
+
+    steps {
+      shell("[ -f .kitchen.yml ] || exit 0; kitchen test debian")
+    }
+
+    wrappers {
+        colorizeOutput('xterm')
+    }
+
+    publishers {
+      downstream("${jobBaseName}-version-bump")
+    }
+  }
+
+  job("${jobBaseName}-version-bump") {
+    displayName "Cookbook: $repoName ($branchName) VERSION BUMP"
+
+    scm {
+      cloneWorkspace("${jobBaseName}-clone")
+    }
+
+    steps {
+      shell("berks install")
+      shell("/opt/chefdk/embedded/bin/thor version:bump patch")
+    }
+
+    publishers {
+      downstream("${jobBaseName}-upload")
+    }
+  }
+
+  job("${jobBaseName}-upload") {
+    displayName "Cookbook: $repoName ($branchName) UPLOAD"
+
+    scm {
+      cloneWorkspace("${jobBaseName}-clone")
+    }
+
+    steps {
+      shell("berks upload --ssl-verify=false")
+    }
+
+  }
+
+
+  buildPipelineView(jobBaseName) {
+    filterBuildQueue()
+    filterExecutors()
+    title('Chef: ${jobBaseName} CI Pipeline')
+    displayedBuilds(5)
+    selectedJob("${jobBaseName}-clone")
+    alwaysAllowManualTrigger()
+    showPipelineParameters()
+    refreshFrequency(60)
+  }
+}
