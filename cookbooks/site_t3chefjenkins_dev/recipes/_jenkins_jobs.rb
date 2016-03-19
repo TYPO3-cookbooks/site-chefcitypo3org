@@ -34,6 +34,13 @@ end
 # TODO - fix this, file might be overridden by git clone in the seed job
 # TODO - so either remove the git cloning (which means, we have to run Chef every time this script changes)
 # TODO - or make the seed job work with the file that is acutally checked out by git
+directory File.join(node['jenkins']['master']['home'], 'jobs', 'job-dsl-cookbooks', 'workspace') do
+  action :create
+  owner     node['jenkins']['master']['user']
+  group     node['jenkins']['master']['group']
+  mode      '0755'
+end
+
 template File.join(node['jenkins']['master']['home'], 'jobs', 'job-dsl-cookbooks', 'workspace', 'job_dsl_cookbooks') do
 	source "job-dsl-cookbooks.groovy.erb"
 end
