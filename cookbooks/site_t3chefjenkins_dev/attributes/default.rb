@@ -13,4 +13,5 @@ default['jenkins']['master']['shell'] = '/bin/bash'
 #<> Configures the Jenkins plugins to be installed on the server.
 default['jenkins']['master']['plugins'] = {}
 
+#<> Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk
 default['t3chefjenkins']['chefdk']['version'] = 'latest'

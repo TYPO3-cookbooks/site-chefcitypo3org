@@ -76,6 +76,14 @@ Afterwards we have a Jenkins server with a build pipeline for every cookbook in 
 
 
 
+Open Issues
+===========
+
+* Currently an old version of Vagrant is installed - find out how to install a latest version on Debian
+* The Jenkins jobs are build with Jobs DSL Plugin - we should take a look at the [pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin) as this will keep the number of jobs smaller
+
+
+
 Authors
 =======
 
