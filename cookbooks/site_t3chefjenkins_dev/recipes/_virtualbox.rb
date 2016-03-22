@@ -1,24 +1,19 @@
 =begin
 #<
-Installs VirtualBox.
-
-The version of VirtualBox is taken from the `node['virtualbox']['version']` attribute.
+Provides VirtualBox on Debian 8 "Jessie"
 #>
-=end
+=end	
 
-apt_repository 'oracle-virtualbox' do
-  uri 'http://download.virtualbox.org/virtualbox/debian'
-  key 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
-  distribution 'trusty'
-  components ['contrib']
+
+# taken from https://wiki.debian.org/VirtualBox
+apt_repository 'contrib' do
+  uri        'http://httpredir.debian.org/debian/'
+  components ['jessie main', 'contrib']
 end
 
-package "virtualbox-#{node['virtualbox']['version']}" do
-  action :install
-end
+architecture = `uname -r|sed 's,[^-]*-[^-]*-,,'`
 
-# What is the 'dkms' package? http://askubuntu.com/questions/408605/what-does-dkms-do-how-do-i-use-it
-package 'dkms' do
-  action :install
-end
 
+# TODO we somehow should pin the version of VirtualBox here...
+package "linux-headers-#{architecture}"
+package 'virtualbox'

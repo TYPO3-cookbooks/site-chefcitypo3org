@@ -15,6 +15,3 @@ default['jenkins']['master']['plugins'] = {}
 
 #<> Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk
 default['t3chefjenkins']['chefdk']['version'] = 'latest'
-
-#<> Version of VirtualBox to be installed
-default['virtualbox']['version'] = '5.0'

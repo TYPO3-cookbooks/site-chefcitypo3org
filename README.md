@@ -1,7 +1,7 @@
 Jenkins Infrastructure for TYPO3 Cookbook Testing
 =================================================
 
-This project contains a Jenkins setup for testing the TYPO3 Chef Cookbooks from [https://github.com/TYPO3-cookbooks/](https://github.com/TYPO3-cookbooks/).
+This project contains a Chef repository for a Jenkins setup for testing the TYPO3 Chef Cookbooks from [https://github.com/TYPO3-cookbooks/](https://github.com/TYPO3-cookbooks/).
 
 
 
@@ -9,6 +9,7 @@ Vagrant Box for Development
 ===========================
 
 The project contains a `Vagrantfile` that creates a Vagrant box for local development.
+
 
 
 What's inside?
@@ -19,6 +20,9 @@ The Vagrant Box contains
 * A chef-client for provisioning the box
 * A Jenkins Server provisioned by Chef
 * All the plugins that are required for running the Jenkins jobs in your virtual machine
+* ChefDK
+* VirtualBox
+* Vagrant
 
 
 
@@ -27,13 +31,12 @@ Setup of the Vagrant Box
 
 Run the following commands to get started with the Vagrant Box:
 
-
     gem install bundler
     bundle install
     berks vendor -b cookbooks/site_t3chefjenkins_dev/Berksfile berks-cookbooks
 
-
 Make sure to run the `berks` command above every time you changed the cookbook before you run `vagrant provision`
+
 
 
 Usage of the Vagrant Box
@@ -79,10 +82,10 @@ Afterwards we have a Jenkins server with a build pipeline for every cookbook in 
 Open Issues
 ===========
 
-* Currently an old version of Vagrant is installed - find out how to install a latest version on Debian
-* The Jenkins jobs are build with Jobs DSL Plugin - we should take a look at the [pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin) as this will keep the number of jobs smaller
+* The Jenkins jobs are build with Jobs DSL Plugin using "classic Jenkins jobs" - we should take a look at the [pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin) as this will keep the number of jobs smaller
 * From time to time we get a `Jenkins::Helper::JenkinsNotReady` error when provisioning Jenkins. We then have to ssh into the machine and re-start Jenkins manually...
 * Jenkins is currently not started as a service - but that's what we want...
+* We get "out of limit warnings" from Github since we are currently using an unauthenticated API request. We should use API credentials to prevent this.
 
 
 
@@ -92,6 +95,7 @@ Further Resources
 * Codecentric Blog Post [Using Jenkins Job DSL for Job Lifecycle Management](https://blog.codecentric.de/en/2015/10/using-jenkins-job-dsl-for-job-lifecycle-management/)
 * [Jobs DSL Plugin on Github](https://github.com/jenkinsci/job-dsl-plugin/wiki)
 * [Jobs DSL Documentation for seeding Workflow / Pipeline Jobs](https://jenkinsci.github.io/job-dsl-plugin/#path/workflowJob)
+* [Creating Pipeline Jobs with Jobs DSL](https://jenkinsci.github.io/job-dsl-plugin/#path/workflowJob)
 
 
 
