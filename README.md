@@ -95,7 +95,6 @@ Further Resources
 * Codecentric Blog Post [Using Jenkins Job DSL for Job Lifecycle Management](https://blog.codecentric.de/en/2015/10/using-jenkins-job-dsl-for-job-lifecycle-management/)
 * [Jobs DSL Plugin on Github](https://github.com/jenkinsci/job-dsl-plugin/wiki)
 * [Jobs DSL Documentation for seeding Workflow / Pipeline Jobs](https://jenkinsci.github.io/job-dsl-plugin/#path/workflowJob)
-* [Creating Pipeline Jobs with Jobs DSL](https://jenkinsci.github.io/job-dsl-plugin/#path/workflowJob)
 
 
 
