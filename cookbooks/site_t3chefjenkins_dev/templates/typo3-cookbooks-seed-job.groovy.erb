@@ -1,0 +1,32 @@
+def organization = 'TYPO3-cookbooks'
+def userType = 'orgs' // 'orgs' or 'users'
+def repoFilter = ~/.*/
+
+repoApi = new URL("https://api.github.com/${userType}/${organization}/repos")
+repos = new groovy.json.JsonSlurper().parse(repoApi.newReader())
+
+repos.findAll{ r -> r.name =~ repoFilter }.each {
+
+  def repoName = it.name
+  def jobBaseName = "cookbook-${repoName}".replaceAll('/','-')
+  def branchName = "master"
+
+  workflowJob('cookbook-pipeline-' + jobBaseName) {
+    definition {
+      cps {
+        script(
+          // TODO find better way to generate this job (e.g. using a template)!
+          "node {\n" +
+          "  stage 'clone cookbook'\n" +
+          "  git url: 'https://github.com/TYPO3-cookbooks/" + repoName + ".git'\n" +
+          "  stage 'foodcritic'\n" +
+          "  sh 'foodcritic . -f all'\n" +
+          "  stage 'testkitchen'\n" +
+          "  sh '[ -f .kitchen.yml ] || exit 0; kitchen test debian'\n" +
+          "}"
+        )
+      }
+    }
+  }
+
+}
