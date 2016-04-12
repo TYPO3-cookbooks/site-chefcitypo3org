@@ -19,3 +19,6 @@ depends          'vagrant',           '~> 0.5.0'
 depends          'git'
 depends          'chef-zero'
 depends          'chef-dk'
+
+depends          'docker'
+depends          'apt-docker'

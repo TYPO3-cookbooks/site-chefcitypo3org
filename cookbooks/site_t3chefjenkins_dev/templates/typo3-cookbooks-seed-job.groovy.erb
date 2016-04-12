@@ -22,7 +22,12 @@ repos.findAll{ r -> r.name =~ repoFilter }.each {
           "  stage 'foodcritic'\n" +
           "  sh 'foodcritic . -f all'\n" +
           "  stage 'testkitchen'\n" +
-          "  sh '[ -f .kitchen.yml ] || exit 0; kitchen test debian'\n" +
+          "  writeFile file: '.kitchen.docker.yml', text: '''---\n" +
+          "driver:\n" +
+          "  name: docker\n" +
+          "  use_sudo: false\n" +
+          "'''\n" +
+          "  sh '[ -f .kitchen.yml ] || exit 0; KITCHEN_LOCAL_YAML=.kitchen.docker.yml kitchen test debian'\n" +
           "}"
         )
       }
