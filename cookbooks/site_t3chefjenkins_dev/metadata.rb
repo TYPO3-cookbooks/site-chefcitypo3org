@@ -10,7 +10,7 @@ supports         'debian'
 
 # Make sure to freeze all versions of community cookbooks here!
 depends          'java',              '~> 1.35.0'
-depends          'jenkins',           '~> 2.3.0'
+depends          'jenkins',           '= 2.4.1'
 depends          'apt'
 depends          'ssh_known_hosts',   '~> 2.0.0'
 depends          'sudo',              '~> 2.7.0'
