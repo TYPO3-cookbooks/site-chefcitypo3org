@@ -2,7 +2,7 @@ def organization = 'TYPO3-cookbooks'
 def userType = 'orgs' // 'orgs' or 'users'
 def repoFilter = ~/.*/
 
-repoApi = new URL("https://api.github.com/${userType}/${organization}/repos")
+repoApi = new URL("https://api.github.com/${userType}/${organization}/repos?per_page=100")
 repos = new groovy.json.JsonSlurper().parse(repoApi.newReader())
 
 repos.findAll{ r -> r.name =~ repoFilter }.each {
