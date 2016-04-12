@@ -1,8 +1,4 @@
 DEPENDENCIES
-  rbenv
-    git: git://github.com/RiotGamesCookbooks/rbenv-cookbook.git
-    revision: bb8d779580d84d67af0598d547c0adaa64550a2c
-    tag: 1.7.1
   site_t3chefjenkins_dev
     path: .
     metadata: true
@@ -28,18 +24,12 @@ GRAPH
     windows (>= 0.0.0)
     yum-epel (>= 0.0.0)
   java (1.35.0)
-  jenkins (2.3.1)
+  jenkins (2.4.1)
     apt (~> 2.0)
     runit (~> 1.5)
     yum (~> 3.0)
-  ohai (3.0.1)
   packagecloud (0.2.0)
   partial_search (1.0.9)
-  rbenv (1.7.1)
-    apt (>= 0.0.0)
-    build-essential (>= 0.0.0)
-    git (>= 0.0.0)
-    ohai (>= 1.1.0)
   runit (1.7.6)
     packagecloud (>= 0.0.0)
   seven_zip (2.0.0)
@@ -52,8 +42,7 @@ GRAPH
     docker (>= 0.0.0)
     git (>= 0.0.0)
     java (~> 1.35.0)
-    jenkins (~> 2.3.0)
-    rbenv (~> 1.7.0)
+    jenkins (= 2.4.1)
     ssh_known_hosts (~> 2.0.0)
     sudo (~> 2.7.0)
     vagrant (~> 0.5.0)
