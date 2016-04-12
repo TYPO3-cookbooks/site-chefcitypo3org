@@ -14,7 +14,7 @@ default['jenkins']['master']['shell'] = '/bin/bash'
 default['jenkins']['master']['plugins'] = {}
 
 #<> Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk
-default['t3chefjenkins']['chefdk']['version'] = 'latest'
+default['t3chefjenkins']['chefdk']['version'] = '0.12.0-1'
 
 #<> Optionally disable usage of Docker
 default['t3chefjenkins']['use_docker'] = true
