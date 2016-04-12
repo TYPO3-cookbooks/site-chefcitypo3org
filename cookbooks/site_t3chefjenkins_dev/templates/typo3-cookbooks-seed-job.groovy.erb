@@ -19,15 +19,32 @@ repos.findAll{ r -> r.name =~ repoFilter }.each {
           "node {\n" +
           "  stage 'clone cookbook'\n" +
           "  git url: 'https://github.com/TYPO3-cookbooks/" + repoName + ".git'\n" +
+          "\n" +
           "  stage 'foodcritic'\n" +
           "  sh 'foodcritic . -f all'\n" +
+          "\n" +
+          "  stage 'berks'\n" +
+          "  sh 'berks install'\n" +
+          "\n" +
           "  stage 'testkitchen'\n" +
-          "  writeFile file: '.kitchen.docker.yml', text: '''---\n" +
-          "driver:\n" +
-          "  name: docker\n" +
-          "  use_sudo: false\n" +
+          "  if (fileExists('.kitchen.docker.yml')) {\n" +
+          "    echo 'Using the cookbooks .kitchen.docker.yml'\n" +
+          "  } else {\n" +
+          "    echo 'Placing default .kitchen.docker.yml file in workspace'\n" +
+          "    writeFile file: '.kitchen.docker.yml', text: '''driver:\n" +
+          "name: docker\n" +
+          "use_sudo: false\n" +
           "'''\n" +
-          "  sh '[ -f .kitchen.yml ] || exit 0; KITCHEN_LOCAL_YAML=.kitchen.docker.yml kitchen test debian'\n" +
+          "  }\n" +
+          "  // it is okay-ish for us at the current state, if kitchen fails\n" +
+          "  catchError {\n" +
+          "    withEnv([\"KITCHEN_LOCAL_YAML=.kitchen.docker.yml\"]) {\n" +
+          "      sh '[ -f .kitchen.yml ] || exit 0;  kitchen test'\n" +
+          "    }\n" +
+          "  }\n" +
+          "  stage 'upload'\n" +
+          "  input 'Do you want to upload?'\n" +
+          "  sh 'berks upload'\n" +
           "}"
         )
       }
