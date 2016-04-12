@@ -24,6 +24,7 @@ job_config_dsl_typo3cookbooks = File.join(Chef::Config[:file_cache_path], "typo3
 template job_config_dsl_typo3cookbooks do
   source "typo3-cookbooks-seed-job.xml.erb"
   notifies  :create, "jenkins_job[job-dsl-typo3cookbooks]", :immediately
+  notifies  :run, "jenkins_job[job-dsl-typo3cookbooks]", :immediately
 end
 
 jenkins_job "job-dsl-typo3cookbooks" do
