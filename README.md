@@ -37,6 +37,8 @@ Run the following commands to get started with the Vagrant Box:
 
 Make sure to run the `berks` command above every time you changed the cookbook before you run `vagrant provision`
 
+(TODO) describe how to set up ChefDK and only use TestKitchen (which is hopefully provided by ChefDK).
+
 
 
 Usage of the Vagrant Box
@@ -53,11 +55,12 @@ Project Roadmap
 
 The following "epics" shall be achieved
 
-1. Installing all necessary Chef tools (ChefDK)
-1. Setting up a basic Jenkins Server
-1. Installing necessary plugins for seed jobs and the Jenkins pipeline plugin
-1. Configuring a seed job for the TYPO3 cookbooks (from Github)
+1. (/) Installing all necessary Chef tools (ChefDK)
+1. (/) Setting up a basic Jenkins Server
+1. (/) Installing necessary plugins for seed jobs and the Jenkins pipeline plugin
+1. (/) Configuring a seed job for the TYPO3 cookbooks (from Github)
 1. Configuring a seed job for the TYPO3 Chef Repository (from Gerrit)
+1. Run cookbook tests on Jenkins (ServerSpec and ChefSpec) using TestKitchen and Docker
 1. Managing Jenkins jobs to push the cookbooks to the Chef Server
 
 
@@ -73,7 +76,7 @@ Our goal is to provision a Jenkins server that has a build pipeline for every Ch
 
     1. uses the Github API to read all repositories from the TYPO3-cookbooks organization
 
-    1. creates a pipeline job for each of these repositories
+    1. creates a [pipeline](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin) job for each of these repositories
 
 Afterwards we have a Jenkins server with a build pipeline for every cookbook in the TYPO3-cookbooks organization.
 
@@ -82,10 +85,15 @@ Afterwards we have a Jenkins server with a build pipeline for every cookbook in 
 Open Issues
 ===========
 
-* The Jenkins jobs are build with Jobs DSL Plugin using "classic Jenkins jobs" - we should take a look at the [pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin) as this will keep the number of jobs smaller
+* (/) The Jenkins jobs are build with Jobs DSL Plugin using "classic Jenkins jobs" - we should take a look at the [pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin) as this will keep the number of jobs smaller
 * From time to time we get a `Jenkins::Helper::JenkinsNotReady` error when provisioning Jenkins. We then have to ssh into the machine and re-start Jenkins manually...
-* Jenkins is currently not started as a service - but that's what we want...
+* (/) Jenkins is currently not started as a service - but that's what we want... see [https://github.com/TYPO3-infrastructure/chef-jenkins/commit/64367b4e00313c89824f1cc23a1a40f1d5a58f67]
 * We get "out of limit warnings" from Github since we are currently using an unauthenticated API request. We should use API credentials to prevent this.
+* Currently we do not handle cookbook upload to Chef Server
+* Get rid of Vagrant and write documentation how to use Testkitchen
+* Write some Unit / Integration tests
+* Refactor `site_t3chefjenkins_dev` into `app_t3chefjenkins` and `site_t3chefjenkins_prod` for separating dev and prod environment
+* Write cookbook doc and use `knife-cookbook-doc` to render cookbook README
 
 
 
@@ -95,6 +103,7 @@ Further Resources
 * Codecentric Blog Post [Using Jenkins Job DSL for Job Lifecycle Management](https://blog.codecentric.de/en/2015/10/using-jenkins-job-dsl-for-job-lifecycle-management/)
 * [Jobs DSL Plugin on Github](https://github.com/jenkinsci/job-dsl-plugin/wiki)
 * [Jobs DSL Documentation for seeding Workflow / Pipeline Jobs](https://jenkinsci.github.io/job-dsl-plugin/#path/workflowJob)
+* [Jenkins Workflow / Pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin)
 
 
 
