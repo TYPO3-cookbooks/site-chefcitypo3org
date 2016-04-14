@@ -41,6 +41,8 @@ directory File.join(node['jenkins']['master']['home'], 'jobs', 'job-dsl-typo3coo
   mode      '0755'
 end
 
+
 template File.join(node['jenkins']['master']['home'], 'jobs', 'job-dsl-typo3cookbooks', 'workspace', 'job_dsl_typo3cookbooks') do
-	source "typo3-cookbooks-seed-job.groovy.erb"
+  source "typo3-cookbooks-seed-job.groovy.erb"
+  owner "jenkins"
 end

@@ -14,39 +14,36 @@ repos.findAll{ r -> r.name =~ repoFilter }.each {
   workflowJob('cookbook-pipeline-' + jobBaseName) {
     definition {
       cps {
-        script(
-          // TODO find better way to generate this job (e.g. using a template)!
-          "node {\n" +
-          "  stage 'clone cookbook'\n" +
-          "  git url: 'https://github.com/TYPO3-cookbooks/" + repoName + ".git'\n" +
-          "\n" +
-          "  stage 'foodcritic'\n" +
-          "  sh 'foodcritic . -f all'\n" +
-          "\n" +
-          "  stage 'berks'\n" +
-          "  sh 'berks install'\n" +
-          "\n" +
-          "  stage 'testkitchen'\n" +
-          "  if (fileExists('.kitchen.docker.yml')) {\n" +
-          "    echo 'Using the cookbooks .kitchen.docker.yml'\n" +
-          "  } else {\n" +
-          "    echo 'Placing default .kitchen.docker.yml file in workspace'\n" +
-          "    writeFile file: '.kitchen.docker.yml', text: '''driver:\n" +
-          "name: docker\n" +
-          "use_sudo: false\n" +
-          "'''\n" +
-          "  }\n" +
-          "  // it is okay-ish for us at the current state, if kitchen fails\n" +
-          "  catchError {\n" +
-          "    withEnv([\"KITCHEN_LOCAL_YAML=.kitchen.docker.yml\"]) {\n" +
-          "      sh '[ -f .kitchen.yml ] || exit 0;  kitchen test'\n" +
-          "    }\n" +
-          "  }\n" +
-          "  stage 'upload'\n" +
-          "  input 'Do you want to upload?'\n" +
-          "  sh 'berks upload'\n" +
-          "}"
-        )
+        script('''
+node {
+  stage 'clone cookbook'
+  git url: 'https://github.com/TYPO3-cookbooks/''' + repoName + '''.git', clean: true
+  // we e.g. have a .kitchen.docker.yml left from the last run. Remove that using "clean: true"
+
+  stage 'foodcritic'
+  sh 'foodcritic . -f all'
+
+  stage 'berks'
+  sh 'berks install'
+
+  stage 'testkitchen'
+  if (fileExists('.kitchen.docker.yml')) {
+    echo 'Using the cookbooks .kitchen.docker.yml'
+  } else {
+    echo 'Placing default .kitchen.docker.yml file in workspace'
+    writeFile file: '.kitchen.docker.yml', text: \'\'\'driver:\\n  name: docker\\n  use_sudo: false\'\'\'
+  }
+  // it is okay-ish for us at the current state, if kitchen fails
+  catchError {
+    withEnv(["KITCHEN_LOCAL_YAML=.kitchen.docker.yml"]) {
+      sh '[ -f .kitchen.yml ] || exit 0;  kitchen test'
+    }
+  }
+  stage 'upload'
+  input 'Do you want to upload?'
+  sh 'berks upload'
+}
+        ''')
       }
     }
   }
