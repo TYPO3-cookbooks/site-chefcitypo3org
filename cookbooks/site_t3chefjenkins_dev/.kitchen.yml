@@ -1,3 +1,36 @@
+# <%
+
+use_your_chef_credentials = true
+
+if use_your_chef_credentials
+
+  require 'chef/knife'
+  k = Chef::Knife.new
+  k.configure_chef
+
+
+  # the existance of the node_name can be taken as "this workstation has a chef setup"
+  def is_configured?
+    not Chef::Config[:node_name].nil?
+  end
+
+  def client_config
+    cfg = {}
+    %w{client_key node_name chef_server_url}.each{|k| cfg[k.to_sym] = Chef::Config[k]}
+    cfg
+  end
+
+  def client_key_exists?
+    File.exists?(Chef::Config[:client_key]) && File.readable?(Chef::Config[:client_key])
+  end
+
+  def client_key_contents_escaped
+    File.read(Chef::Config[:client_key]).gsub(/\n/, "|")
+  end
+
+end
+
+%>
 ---
 driver:
   name: vagrant
@@ -16,6 +49,11 @@ suites:
     run_list:
       - recipe[site_t3chefjenkins_dev::default]
     attributes:
+<% if use_your_chef_credentials and is_configured? %>
+      t3chefjenkins:
+        knife_config: <%= client_config.to_json %>
+        knife_client_key: '<%= client_key_contents_escaped %>'
+<% end %>
     driver_config:
       network:
       - ["private_network", {ip: "192.168.88.23"}]

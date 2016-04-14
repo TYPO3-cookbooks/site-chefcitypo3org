@@ -1,0 +1,30 @@
+node {
+  stage 'clone cookbook'
+  git url: 'https://github.com/TYPO3-cookbooks/hwraid.git'
+
+  stage 'foodcritic'
+  sh 'foodcritic . -f all'
+
+  stage 'berks'
+  sh 'berks install'
+
+  stage 'testkitchen'
+  if (fileExists('.kitchen.docker.yml')) {
+    echo 'Using the cookbooks .kitchen.docker.yml'
+  } else {
+    echo 'Placing default .kitchen.docker.yml file in workspace'
+    writeFile file: '.kitchen.docker.yml', text: '''driver:
+name: docker
+use_sudo: false
+'''
+  }
+  // it is okay-ish for us at the current state, if kitchen fails
+  catchError {
+    withEnv(["KITCHEN_LOCAL_YAML=.kitchen.docker.yml"]) {
+      sh '[ -f .kitchen.yml ] || exit 0;  kitchen test'
+    }
+  }
+  stage 'upload'
+  input 'Do you want to upload?'
+  sh 'berks upload'
+}
