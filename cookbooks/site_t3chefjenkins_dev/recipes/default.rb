@@ -14,4 +14,6 @@ end
 
 include_recipe 'chef-zero'
 
-jenkins_command 'safe-restart'
+jenkins_command 'safe-restart' do
+  action :nothing
+end
