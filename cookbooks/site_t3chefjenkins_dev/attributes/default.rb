@@ -15,3 +15,9 @@ default['t3chefjenkins']['chefdk']['version'] = '0.12.0-1'
 
 #<> Optionally disable usage of Docker
 default['t3chefjenkins']['use_docker'] = true
+
+#<> The knife/chef configuration for communicating with the Chef API
+default['t3chefjenkins']['knife_config'] = nil
+
+#<> Optionally (for local testing), the contents of a chef admin's key (\n replaced with |)
+default['t3chefjenkins']['knife_client_key'] = nil
