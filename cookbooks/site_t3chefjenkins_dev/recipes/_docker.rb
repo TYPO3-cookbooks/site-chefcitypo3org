@@ -14,5 +14,5 @@ group "docker" do
   members "jenkins"
   append true
   action :modify
-  notifies :restart, "service[jenkins]"
+  notifies :execute, "jenkins_command[safe-restart]"
 end
