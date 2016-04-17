@@ -45,3 +45,18 @@ file "#{node['jenkins']['master']['home']}/.chef/client.pem" do
   content "Manually replace this with the real client.pem!" unless node['t3chefjenkins']['knife_client_key']
   action :create_if_missing unless node['t3chefjenkins']['knife_client_key']
 end
+
+###########################
+# Test-Kitchen
+###########################
+
+directory "#{node['jenkins']['master']['home']}/.kitchen/" do
+  owner "jenkins"
+  group "jenkins"
+end
+
+template "#{node['jenkins']['master']['home']}/.kitchen/config.yml" do
+  owner "jenkins"
+  group "jenkins"
+  source "kitchen-default.yml.erb"
+end
