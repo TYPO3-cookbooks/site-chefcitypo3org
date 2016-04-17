@@ -16,6 +16,20 @@ repos.findAll{ r -> r.name =~ repoFilter }.each {
     definition {
       cps {
         script('''
+
+def place_kitchen_yaml() {
+  if (fileExists('.kitchen.docker.yml')) {
+    echo 'Using the cookbooks .kitchen.docker.yml'
+  } else {
+    echo 'Placing default .kitchen.docker.yml file in workspace'
+    writeFile file: '.kitchen.docker.yml', text: \'\'\'driver:\n  name: docker\n  use_sudo: false\'\'\'
+  }
+}
+
+// global variable holding the list of test-kitchen instances
+def tk_instances = []
+
+// allocate a node for the smaller steps
 node {
   stage 'clone cookbook'
   git url: 'https://github.com/TYPO3-cookbooks/''' + repoName + '''.git', clean: true
@@ -27,23 +41,49 @@ node {
   stage 'berks'
   sh 'berks install'
 
-  stage 'testkitchen'
-  if (fileExists('.kitchen.docker.yml')) {
-    echo 'Using the cookbooks .kitchen.docker.yml'
-  } else {
-    echo 'Placing default .kitchen.docker.yml file in workspace'
-    writeFile file: '.kitchen.docker.yml', text: \'\'\'driver:\\n  name: docker\\n  use_sudo: false\'\'\'
+  stage 'testkitchen prepare'
+  env.KITCHEN_LOCAL_YAML=".kitchen.docker.yml"
+  place_kitchen_yaml()
+  // copy the workspace for our slaves
+  stash includes: '**', name: 'cookbook'
+
+  // read out the list of test instances from `kitchen list`
+  sh 'KITCHEN_LOCAL_YAML=.kitchen.docker.yml kitchen list > KITCHEN_INSTANCES'
+  def lines = readFile('KITCHEN_INSTANCES').split('\\n') // in the Chef template, we have to escape the backslash so that one remains!
+  // skip the headline, read out all instances
+  for (int i = 1; i < lines.size(); i++) {
+    tk_instances << lines[i].tokenize(' ')[0]
   }
-  // it is okay-ish for us at the current state, if kitchen fails
-  catchError {
-    withEnv(["KITCHEN_LOCAL_YAML=.kitchen.docker.yml"]) {
-      sh '[ -f .kitchen.yml ] || exit 0;  kitchen test'
+
+  // kitchen_list_output = "kitchen list".execute().text
+  // this nice line is broken in Pipeline 2.0 https://issues.jenkins-ci.org/browse/JENKINS-26481
+  // readFile('KITCHEN_INSTANCES').eachLine { line, count -> if (count > 0) tk_instances << line.tokenize(' ')[0] }
+
+  echo "Found instances: " + tk_instances
+
+}
+
+// create the node objects that run our tests
+test_nodes = [:]
+for (int i = 0; i < tk_instances.size(); i++) {
+  def instance_name = tk_instances.get(i)
+
+  test_nodes["tk-${instance_name}"] = {
+    node {
+      // restore workspace
+      unstash 'cookbook'
+
+      // it is okay-ish for us at the current state, if kitchen fails
+      withEnv(["KITCHEN_LOCAL_YAML=.kitchen.docker.yml"]) {
+        sh 'kitchen test ' + instance_name
+      }
     }
   }
-  stage 'upload'
-  // input 'Do you want to upload?'
-  // sh 'berks upload'
 }
+// run all the previously prepared nodes/stages in parallel
+stage name: 'testkitchen'
+parallel test_nodes
+
         ''')
       }
     }
