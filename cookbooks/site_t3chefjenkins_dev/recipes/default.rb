@@ -4,6 +4,8 @@ Wires together all the pieces
 #>
 =end
 
+# include_recipe "t3-base"
+
 %w(apt git java).each do | recipe |
   include_recipe recipe
 end
