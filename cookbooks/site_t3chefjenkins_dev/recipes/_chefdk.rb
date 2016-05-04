@@ -44,10 +44,9 @@ template "#{node['jenkins']['master']['home']}/.chef/config.rb" do
   group "jenkins"
   source "chef-config.rb.erb"
   variables(
-    :node_name => node['t3chefjenkins']['knife_config']['node_name'],
-    :chef_server_url => node['t3chefjenkins']['knife_config']['chef_server_url'],
+    :node_name => node['t3chefjenkins']['knife_config'].key?('node_name') ? node['t3chefjenkins']['knife_config']['node_name'] : "",
+    :chef_server_url => node['t3chefjenkins']['knife_config']['chef_server_url'] || "https://chef-server-url-undefined.example.com",
   )
-  only_if { node['t3chefjenkins']['knife_config'] && node['t3chefjenkins']['knife_config']['node_name'] }
 end
 
 # place either the client key defined in the attributes, or create only a template file
