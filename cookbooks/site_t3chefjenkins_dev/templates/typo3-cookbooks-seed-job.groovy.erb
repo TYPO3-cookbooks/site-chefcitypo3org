@@ -116,3 +116,30 @@ parallel test_nodes
   }
 
 }
+
+
+///////////////////////////////
+// main chef-repo
+///////////////////////////////
+
+job('chef-repo') {
+
+  displayName('Main Chef repo')
+
+  scm {
+    git("<%= node['t3chefjenkins']['main_repo'] %>", "master")
+  }
+
+
+  wrappers {
+    colorizeOutput('xterm')
+  }
+
+  steps {
+    // at first, we finalize the config so that we can still connect to the chef server (by symlinking ~/.chef/config.rb)
+    shell('[ -h ".chef/knife.local.rb" ] && true || ln -s ~/.chef/config.rb .chef/knife.local.rb')
+
+
+    shell('scripts/upload-changes.sh $GIT_PREVIOUS_COMMIT..$GIT_COMMIT')
+  }
+}
