@@ -31,8 +31,8 @@ repos.findAll{ r -> r.name =~ repoFilter }.each {
 
     definition {
       cps {
+        sandbox()
         script('''
-
 // do not modify this job manually - it is automatically set up by the Chef cookbook!
 
 def place_kitchen_yaml() {
