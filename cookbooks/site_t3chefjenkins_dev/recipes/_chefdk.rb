@@ -5,6 +5,20 @@ chef_dk 't3chefjenkins_chefdk' do
 end
 
 
+# required for jsonlint
+package "build-essential"
+
+%w{
+jsonlint
+yaml-lint
+rails-erb-check
+}.each do |gem|
+  gem_package gem do
+    gem_binary "/opt/chefdk/embedded/bin/gem"
+    options "--no-document --no-user-install"
+  end
+end
+
 if node['t3chefjenkins']['use_docker']
   %w{
   kitchen-docker
