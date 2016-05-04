@@ -1,6 +1,6 @@
 =begin
 #<
-Provides a Jenkins master server.
+Wires together all the pieces
 #>
 =end
 
