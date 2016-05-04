@@ -4,8 +4,8 @@ Wires together all the pieces
 #>
 =end
 
-%w(apt git java jenkins::master).each do | recipe |
-	include_recipe recipe
+%w(apt git java).each do | recipe |
+  include_recipe recipe
 end
 
 %w(_packages _chefdk _jenkins_plugins _jenkins_jobs _docker).each do | local_recipe |
