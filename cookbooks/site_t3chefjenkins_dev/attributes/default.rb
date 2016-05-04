@@ -1,3 +1,9 @@
+#<> URL of this Jenkins instance
+default['jenkins']['master']['endpoint'] = "https://chef-ci.typo3.org"
+
+#<> Install Jenkins LTS
+default['jenkins']['master']['repository'] = "http://pkg.jenkins-ci.org/debian-stable"
+
 #<> Sets the required Java version
 override['java']['jdk_version'] = '7'
 
@@ -24,3 +30,12 @@ default['t3chefjenkins']['knife_config'] = {}
 
 #<> Optionally (for local testing), the contents of a chef admin's key (\n replaced with |)
 default['t3chefjenkins']['knife_client_key'] = nil
+
+#<> URL of the main chef repo
+default['t3chefjenkins']['main_repo'] = "ssh://chef-jenkins@review.typo3.org:29418/Teams/Server/Chef.git"
+
+#<> Github OAuth client ID
+default['t3chefjenkins']['auth']['github_client_id'] = nil
+
+#<> Github OAuth client secret
+default['t3chefjenkins']['auth']['github_client_secret'] = nil
