@@ -30,6 +30,8 @@ if use_your_chef_credentials
 
 end
 
+puts "Optionally: Export JENKINS_T3O_USER to specify your typo3.org username" unless ENV['JENKINS_T3O_USER']
+
 %>
 ---
 driver:
@@ -52,8 +54,15 @@ suites:
     run_list:
       - recipe[site_t3chefjenkins_dev::default]
     attributes:
-<% if use_your_chef_credentials and is_configured? %>
+      jenkins:
+        master:
+          endpoint: http://192.168.88.23:8080
       t3chefjenkins:
+        main_repo: ssh://<%= ENV['JENKINS_T3O_USER'] %>@review.typo3.org:29418/Teams/Server/Chef.git
+        auth:
+          github_client_id: <%= ENV['JENKINS_GITHUB_CLIENT_ID'] %>
+          github_client_secret: <%= ENV['JENKINS_GITHUB_CLIENT_SECRET'] %>
+<% if use_your_chef_credentials and is_configured? %>
         knife_config: <%= client_config.to_json %>
         knife_client_key: '<%= client_key_contents_escaped %>'
 <% end %>
