@@ -9,13 +9,31 @@ repos = new groovy.json.JsonSlurper().parse(repoApi.newReader())
 repos.findAll{ r -> r.name =~ repoFilter }.each {
 
   def repoName = it.name
-  def jobBaseName = "cookbook-${repoName}".replaceAll('/','-')
-  def branchName = "master"
+  def jobName = "chef-cookbook-${repoName}".replaceAll('/','-')
 
-  workflowJob('cookbook-pipeline-' + jobBaseName) {
+  workflowJob(jobName) {
+    displayName("Chef Cookbook: ${repoName}")
+
+    properties {
+        githubProjectUrl("https://github.com/${organization}/${repoName}")
+    }
+
+    triggers() {
+      githubPush()
+      // as of now, the ghprb plugin is not yet pipeline-compatible - see
+      // https://github.com/jenkinsci/pipeline-plugin/blob/master/COMPATIBILITY.md
+      // githubPullRequest {
+      //   cron('H/5 * * * *')
+      //   useGitHubHooks()
+      //   permitAll()
+      // }
+    }
+
     definition {
       cps {
         script('''
+
+// do not modify this job manually - it is automatically set up by the Chef cookbook!
 
 def place_kitchen_yaml() {
   if (fileExists('.kitchen.docker.yml')) {
@@ -73,10 +91,14 @@ for (int i = 0; i < tk_instances.size(); i++) {
       // restore workspace
       unstash 'cookbook'
 
-      // it is okay-ish for us at the current state, if kitchen fails
+      // TODO: wrap this in try/catch, to make sure that we execute destroy
       withEnv(["KITCHEN_LOCAL_YAML=.kitchen.docker.yml"]) {
-        sh 'kitchen test ' + instance_name
+        wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "XTerm"]) {
+          sh 'kitchen test ' + instance_name
+        }
       }
+      // clean up the instance
+      sh 'kitchen destroy ' + instance_name
     }
   }
 }
