@@ -19,22 +19,22 @@
 # limitations under the License.
 #
 
-job_config_dsl_typo3cookbooks = File.join(Chef::Config[:file_cache_path], "typo3-cookbooks-seed-job.xml.erb")
+seed_chef_job_xml = File.join(Chef::Config[:file_cache_path], "seed-chef.xml")
 
-template job_config_dsl_typo3cookbooks do
-  source "typo3-cookbooks-seed-job.xml.erb"
-  notifies  :create, "jenkins_job[job-dsl-typo3cookbooks]", :immediately
+template seed_chef_job_xml do
+  source "jenkins-jobs/seed-chef/seed-chef.xml.erb"
+  notifies  :create, "jenkins_job[seed-chef]", :immediately
 end
 
-jenkins_job "job-dsl-typo3cookbooks" do
+jenkins_job "seed-chef" do
   action :nothing
-  config job_config_dsl_typo3cookbooks
+  config seed_chef_job_xml
 end
 
 # TODO - fix this, file might be overridden by git clone in the seed job
 # TODO - so either remove the git cloning (which means, we have to run Chef every time this script changes)
 # TODO - or make the seed job work with the file that is acutally checked out by git
-directory File.join(node['jenkins']['master']['home'], 'jobs', 'job-dsl-typo3cookbooks', 'workspace') do
+directory "#{node['jenkins']['master']['home']}/jobs/seed-chef/workspace/" do
   action :create
   owner     node['jenkins']['master']['user']
   group     node['jenkins']['master']['group']
@@ -42,8 +42,9 @@ directory File.join(node['jenkins']['master']['home'], 'jobs', 'job-dsl-typo3coo
 end
 
 
-template File.join(node['jenkins']['master']['home'], 'jobs', 'job-dsl-typo3cookbooks', 'workspace', 'job_dsl_typo3cookbooks') do
-  source "typo3-cookbooks-seed-job.groovy.erb"
-  owner "jenkins"
+template "#{node['jenkins']['master']['home']}/jobs/seed-chef/workspace/seed_jobdsl.groovy" do
+  source "jenkins-jobs/seed-chef/seed_jobdsl.groovy.erb"
+  owner     node['jenkins']['master']['user']
+  group     node['jenkins']['master']['group']
 end
 
