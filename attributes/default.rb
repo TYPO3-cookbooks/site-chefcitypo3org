@@ -1,5 +1,5 @@
 #<> Public URL of the Jenkins master
-defaul['site-chefcitypo3org']['url'] = "https://chef-ci.typo3.org"
+default['site-chefcitypo3org']['url'] = "https://chef-ci.typo3.org"
 
 #<> Install Jenkins LTS
 default['jenkins']['master']['repository'] = "http://pkg.jenkins-ci.org/debian-stable"
