@@ -1,4 +1,11 @@
-include_recipe "apt-docker"
+apt_repo "docker" do
+  uri "https://apt.dockerproject.org/repo"
+  distribution "#{node['platform']}-#{node['lsb']['codename']}"
+  components ["main"]
+  keyserver "hkp://p80.pool.sks-keyservers.net:80"
+  key "58118E89F3A912897C070ADBF76221572C52609D"
+end
+
 package "docker-engine"
 
 # add jenkins to the docker group, so that it doesn't need to use
