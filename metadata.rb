@@ -8,7 +8,7 @@ version          '0.1.0'
 
 supports         'debian'
 
-# depends          't3-base', '~> 0.2.0'
+depends          't3-base', '~> 0.2.0'
 
 # Make sure to freeze all versions of community cookbooks here!
 depends          'java',              '~> 1.35.0'
