@@ -1,4 +1,4 @@
-apt_repo "docker" do
+apt_repository "docker" do
   uri "https://apt.dockerproject.org/repo"
   distribution "#{node['platform']}-#{node['lsb']['codename']}"
   components ["main"]
