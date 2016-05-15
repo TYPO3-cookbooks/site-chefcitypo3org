@@ -1,4 +1,4 @@
-name             'site_t3chefjenkins_dev'
+name             'site-chefcitypo3org'
 maintainer       'Michael Lihs'
 maintainer_email 'mimi@kaktusteam.def'
 license          'All rights reserved'

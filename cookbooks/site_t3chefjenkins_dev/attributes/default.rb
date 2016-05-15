@@ -17,25 +17,25 @@ default['jenkins']['master']['shell'] = '/bin/bash'
 default['jenkins']['master']['plugins'] = {}
 
 #<> Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk
-default['t3chefjenkins']['chefdk']['version'] = '0.12.0-1'
+default['site-chefcitypo3org']['chefdk']['version'] = '0.12.0-1'
 
 #<> Configures the version of Chef to use for test-kitchen runs
-default['t3chefjenkins']['kitchen']['chef_version'] = "12.5.1"
+default['site-chefcitypo3org']['kitchen']['chef_version'] = "12.5.1"
 
 #<> Optionally disable usage of Docker
-default['t3chefjenkins']['use_docker'] = true
+default['site-chefcitypo3org']['use_docker'] = true
 
 #<> The knife/chef configuration for communicating with the Chef API
-default['t3chefjenkins']['knife_config'] = {}
+default['site-chefcitypo3org']['knife_config'] = {}
 
 #<> Optionally (for local testing), the contents of a chef admin's key (\n replaced with |)
-default['t3chefjenkins']['knife_client_key'] = nil
+default['site-chefcitypo3org']['knife_client_key'] = nil
 
 #<> URL of the main chef repo
-default['t3chefjenkins']['main_repo'] = "ssh://chef-jenkins@review.typo3.org:29418/Teams/Server/Chef.git"
+default['site-chefcitypo3org']['main_repo'] = "ssh://chef-jenkins@review.typo3.org:29418/Teams/Server/Chef.git"
 
 #<> Github OAuth client ID
-default['t3chefjenkins']['auth']['github_client_id'] = nil
+default['site-chefcitypo3org']['auth']['github_client_id'] = nil
 
 #<> Github OAuth client secret
-default['t3chefjenkins']['auth']['github_client_secret'] = nil
+default['site-chefcitypo3org']['auth']['github_client_secret'] = nil

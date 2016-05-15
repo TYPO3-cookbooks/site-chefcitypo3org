@@ -39,11 +39,11 @@ jenkins_script 'auth' do
 
     // We guard the security realm setup in a check that is based on the github_client_secret chef attribute.
     // In production, we manually configure this. In test-kitchen (see .kitchen.yml), we automatically confgure it through env vars.
-    if ('#{node['t3chefjenkins']['auth']['github_client_secret']}') {
+    if ('#{node['site-chefcitypo3org']['auth']['github_client_secret']}') {
       String githubWebUri = 'https://github.com'
       String githubApiUri = 'https://api.github.com'
-      String clientID = '#{node['t3chefjenkins']['auth']['github_client_id']}'
-      String clientSecret = '#{node['t3chefjenkins']['auth']['github_client_secret']}'
+      String clientID = '#{node['site-chefcitypo3org']['auth']['github_client_id']}'
+      String clientSecret = '#{node['site-chefcitypo3org']['auth']['github_client_secret']}'
       String oauthScopes = 'read:org,user:email'
       SecurityRealm github_realm = new GithubSecurityRealm(githubWebUri, githubApiUri, clientID, clientSecret, oauthScopes)
 

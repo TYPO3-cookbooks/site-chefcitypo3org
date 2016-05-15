@@ -1,4 +1,4 @@
-return unless node['t3chefjenkins']['use_docker']
+return unless node['site-chefcitypo3org']['use_docker']
 
 include_recipe "apt-docker"
 package "docker-engine"

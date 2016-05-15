@@ -1,5 +1,5 @@
 DEPENDENCIES
-  site_t3chefjenkins_dev
+  site-chefcitypo3org
     path: .
     metadata: true
 

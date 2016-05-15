@@ -52,12 +52,12 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[site_t3chefjenkins_dev::default]
+      - recipe[site-chefcitypo3org::default]
     attributes:
       jenkins:
         master:
           endpoint: http://192.168.88.23:8080
-      t3chefjenkins:
+      site-chefcitypo3org:
         main_repo: ssh://<%= ENV['JENKINS_T3O_USER'] %>@review.typo3.org:29418/Teams/Server/Chef.git
         auth:
           github_client_id: <%= ENV['JENKINS_GITHUB_CLIENT_ID'] %>
