@@ -1,5 +1,3 @@
-return unless node['site-chefcitypo3org']['use_docker']
-
 include_recipe "apt-docker"
 package "docker-engine"
 

@@ -22,9 +22,6 @@ default['site-chefcitypo3org']['chefdk']['version'] = '0.12.0-1'
 #<> Configures the version of Chef to use for test-kitchen runs
 default['site-chefcitypo3org']['kitchen']['chef_version'] = "12.5.1"
 
-#<> Optionally disable usage of Docker
-default['site-chefcitypo3org']['use_docker'] = true
-
 #<> The knife/chef configuration for communicating with the Chef API
 default['site-chefcitypo3org']['knife_config'] = {}
 

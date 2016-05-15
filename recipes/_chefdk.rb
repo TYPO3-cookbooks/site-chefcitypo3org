@@ -9,6 +9,7 @@ end
 package "build-essential"
 
 %w{
+kitchen-docker
 jsonlint
 yaml-lint
 rails-erb-check
@@ -16,17 +17,6 @@ rails-erb-check
   gem_package gem do
     gem_binary "/opt/chefdk/embedded/bin/gem"
     options "--no-document --no-user-install"
-  end
-end
-
-if node['site-chefcitypo3org']['use_docker']
-  %w{
-  kitchen-docker
-  }.each do |gem|
-    gem_package gem do
-      gem_binary "/opt/chefdk/embedded/bin/gem"
-      options "--no-document --no-user-install"
-    end
   end
 end
 
