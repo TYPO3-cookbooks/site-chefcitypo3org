@@ -1,5 +1,17 @@
-.vagrant/
-berks-cookbooks/
-local-mode-cache/
-nodes/
+.vagrant
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
 
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
+
+.kitchen/
+.kitchen.local.yml
+test/integration/data_bags/certificates/wildcard_typo3_org.json
+.idea/
