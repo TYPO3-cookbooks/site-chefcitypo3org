@@ -20,7 +20,7 @@ jenkins_script 'jenkins-location-configuration' do
 
   def jlc = JenkinsLocationConfiguration.get()
   jlc.setAdminAddress("TYPO3 Server Admin Team <admin@typo3.org>")
-  //jlc.setUrl("#{node['site-chefcitypo3org']['url']}")
+  jlc.setUrl("#{node['site-chefcitypo3org']['url']}")
   jlc.save()
 
   EOH
