@@ -24,6 +24,7 @@ seed_chef_job_xml = File.join(Chef::Config[:file_cache_path], "seed-chef.xml")
 template seed_chef_job_xml do
   source "jenkins-jobs/seed-chef/seed-chef.xml.erb"
   notifies  :create, "jenkins_job[seed-chef]", :immediately
+  notifies  :build, "jenkins_job[seed-chef]"
 end
 
 jenkins_job "seed-chef" do
@@ -46,5 +47,6 @@ template "#{node['jenkins']['master']['home']}/jobs/seed-chef/workspace/seed_job
   source "jenkins-jobs/seed-chef/seed_jobdsl.groovy.erb"
   owner     node['jenkins']['master']['user']
   group     node['jenkins']['master']['group']
+  notifies  :build, "jenkins_job[seed-chef]"
 end
 
