@@ -53,6 +53,8 @@ node {
   git url: 'https://github.com/TYPO3-cookbooks/''' + repoName + '''.git', clean: true
   // we e.g. have a .kitchen.docker.yml left from the last run. Remove that using "clean: true"
 
+  step([$class: 'GitHubSetCommitStatusBuilder'])
+
   // see also http://atomic-penguin.github.io/blog/2014/04/29/stupid-jenkins-and-chef-tricks-part-1-rubocop/
   stage 'lint'
   sh 'foodcritic . -f all'
@@ -61,7 +63,12 @@ node {
   step([$class: 'AnalysisPublisher'])
 
   stage 'berks'
-  sh 'berks install'
+  try {
+    sh 'berks install'
+    currentBuild.result = 'SUCCESS'
+  } catch (err) {
+    currentBuild.result = 'FAILURE'
+  }
 
   stage 'testkitchen prepare'
   env.KITCHEN_LOCAL_YAML=".kitchen.docker.yml"
@@ -98,7 +105,12 @@ for (int i = 0; i < tk_instances.size(); i++) {
       // TODO: wrap this in try/catch, to make sure that we execute destroy
       withEnv(["KITCHEN_LOCAL_YAML=.kitchen.docker.yml"]) {
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "XTerm"]) {
-          sh 'kitchen test ' + instance_name
+          try {
+            sh 'kitchen test --destroy always ' + instance_name
+            currentBuild.result = 'SUCCESS'
+          } catch (err) {
+            currentBuild.result = 'FAILURE'
+          }
         }
       }
       // clean up the instance
@@ -110,6 +122,13 @@ for (int i = 0; i < tk_instances.size(); i++) {
 stage name: 'testkitchen'
 parallel test_nodes
 
+node {
+  step([$class: 'GitHubCommitNotifier', resultOnFailure: 'FAILURE'])
+
+  if (currentBuild.result == 'FAILURE') {
+    error "Build failed"
+  }
+}
 
 node {
   stage 'upload'
