@@ -34,8 +34,8 @@ template "#{node['jenkins']['master']['home']}/.chef/config.rb" do
   group "jenkins"
   source "chef-config.rb.erb"
   variables(
-    :node_name => node['site-chefcitypo3org']['knife_config'].key?('node_name') ? node['site-chefcitypo3org']['knife_config']['node_name'] : "",
-    :chef_server_url => node['site-chefcitypo3org']['knife_config']['chef_server_url'] || "https://chef-server-url-undefined.example.com",
+    :node_name => node['site-chefcitypo3org']['knife_config'].key?('node_name') ? node['site-chefcitypo3org']['knife_config']['node_name'] : "jenkins",
+    :chef_server_url => node['site-chefcitypo3org']['knife_config']['chef_server_url'] || "https://chef.typo3.org",
   )
 end
 
