@@ -17,7 +17,7 @@ default['jenkins']['master']['shell'] = '/bin/bash'
 default['jenkins']['master']['plugins'] = {}
 
 #<> Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk
-default['site-chefcitypo3org']['chefdk']['version'] = '0.13.21-1'
+default['site-chefcitypo3org']['chefdk']['version'] = '0.12.0-1'
 
 #<> Configures the version of Chef to use for test-kitchen runs
 default['site-chefcitypo3org']['kitchen']['chef_version'] = "12.5.1"
