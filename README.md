@@ -1,3 +1,5 @@
+TEST
+
 # Description
 
 Provisions a Jenkins master server.
