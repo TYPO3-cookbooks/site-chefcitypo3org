@@ -50,8 +50,9 @@ def tk_instances = []
 // allocate a node for the smaller steps
 node {
   stage 'clone cookbook'
-  git url: 'https://github.com/TYPO3-cookbooks/''' + repoName + '''.git', clean: true
-  // we e.g. have a .kitchen.docker.yml left from the last run. Remove that using "clean: true"
+  git url: 'https://github.com/TYPO3-cookbooks/''' + repoName + '''.git'
+  // we e.g. have a .kitchen.docker.yml left from the last run. Remove that.
+  sh 'git clean -fdx'
 
   step([$class: 'GitHubSetCommitStatusBuilder'])
 
