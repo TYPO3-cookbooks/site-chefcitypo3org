@@ -40,7 +40,7 @@ def place_kitchen_yaml() {
     echo 'Using the cookbooks .kitchen.docker.yml'
   } else {
     echo 'Placing default .kitchen.docker.yml file in workspace'
-    writeFile file: '.kitchen.docker.yml', text: \'\'\'driver:\n  name: docker\n  use_sudo: false\n  provision_command:\n    - apt-get install -y wget\'\'\'
+    writeFile file: '.kitchen.docker.yml', text: \'\'\'driver:\n  name: docker\n  use_sudo: false\n  provision_command:\n    - apt-get install -y wget\n    - apt-get install -y net-utils cron\'\'\'
   }
 }
 
