@@ -23,6 +23,7 @@ plugins = {
   "analysis-collector" => nil,
   "ansicolor" => nil,
   "greenballs" => nil,
+  "slack" => nil,
 }
 
 plugins.each do | plugin, plugin_version |
