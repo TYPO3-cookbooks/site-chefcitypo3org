@@ -153,6 +153,14 @@ job('chef-repo') {
     git("<%= node['site-chefcitypo3org']['main_repo'] %>")
   }
 
+  triggers {
+    gerrit {
+      events {
+        refUpdated()
+      }
+      project('Teams/Server/Chef', 'master')
+    }
+  }
 
   wrappers {
     colorizeOutput('xterm')
