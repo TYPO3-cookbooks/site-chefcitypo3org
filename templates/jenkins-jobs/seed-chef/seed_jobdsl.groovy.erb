@@ -6,10 +6,12 @@ def repoFilter = ~/.*/
 repoApi = new URL("https://api.github.com/${userType}/${organization}/repos?per_page=100")
 repos = new groovy.json.JsonSlurper().parse(repoApi.newReader())
 
+folder('chef-cookbooks')
+
 repos.findAll{ r -> r.name =~ repoFilter }.each {
 
   def repoName = it.name
-  def jobName = "chef-cookbook-${repoName}".replaceAll('/','-')
+  def jobName = "chef-cookbooks/${repoName}"
 
   workflowJob(jobName) {
     displayName("Chef Cookbook: ${repoName}")
