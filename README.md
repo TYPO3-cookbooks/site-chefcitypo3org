@@ -27,7 +27,7 @@ Provisions a Jenkins master server.
 * `node['java']['install_flavor']` - Sets the Java installation distribution. Defaults to `openjdk`.
 * `node['jenkins']['master']['shell']` - Sets the default shell for the jenkins system user. Defaults to `/bin/bash`.
 * `node['jenkins']['master']['plugins']` - Configures the Jenkins plugins to be installed on the server. Defaults to `{ ... }`.
-* `node['site-chefcitypo3org']['chefdk']['version']` - Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk. Defaults to `0.13.21-1`.
+* `node['site-chefcitypo3org']['chefdk']['version']` - Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk. Defaults to `0.12.0-1`.
 * `node['site-chefcitypo3org']['kitchen']['chef_version']` - Configures the version of Chef to use for test-kitchen runs. Defaults to `12.5.1`.
 * `node['site-chefcitypo3org']['knife_config']` - The knife/chef configuration for communicating with the Chef API. Defaults to `{ ... }`.
 * `node['site-chefcitypo3org']['knife_client_key']` - Optionally (for local testing), the contents of a chef admin's key (\n replaced with |). Defaults to `nil`.
@@ -187,13 +187,17 @@ Place this private key into `/var/lib/jenkins/.chef/client.pem` (and validate th
 
 ### Github.com Credentials
 
-* TODO
+* Go to _Manage Jenkins_ and _Configure System_.
+* In the _GitHub_ section, add a new _GitHub Server_.
+* Use the _Add_ button to add the credentials for the _chefcitypo3org_ user and convert it to a token
+* Activate _Manage hooks_
+* Under _Advanced_, hooks can be updated using the _Re-register hooks for all jobs_ - but only for jobs that already ran.
 
-### Manually Run Seed Job
+### Gerrit
 
- As of version 2.4.1 of the [jenkins](https://supermarket.chef.io/cookbooks/jenkins) cookbook, the latest changes in _master_ to add the `:build` action to the `jenkins_job` resource have not been released, yet.
- Therefore, manually run the _Job DSL seed job_, which creates all other jobs.
-
+* Place the private key of the typo3.org user that is registered in Gerrit in `/var/lib/jenkins/.ssh/id_rsa`.
+* Go to _Manage Jenkins_ and _Gerrit Trigger_.
+* Add `review.typo3.org` as a new server.
 
 # License and Maintainer
 
