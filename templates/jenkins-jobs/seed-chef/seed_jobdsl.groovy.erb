@@ -20,13 +20,6 @@ repos.findAll{ r -> r.name =~ repoFilter }.each {
 
     triggers() {
       githubPush()
-      // as of now, the ghprb plugin is not yet pipeline-compatible - see
-      // https://github.com/jenkinsci/pipeline-plugin/blob/master/COMPATIBILITY.md
-      // githubPullRequest {
-      //   cron('H/5 * * * *')
-      //   useGitHubHooks()
-      //   permitAll()
-      // }
     }
 
     definition {
