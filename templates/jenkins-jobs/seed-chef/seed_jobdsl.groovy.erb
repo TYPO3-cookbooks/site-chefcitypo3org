@@ -44,7 +44,7 @@ def tk_instances = []
 
 // allocate a node for the smaller steps
 node {
-  slackSend message: "Build Started - ${env.JOB_NAME}: ${env.BUILD_NUMBER}", failOnError: false
+  slackSend message: "Build Started - ${env.JOB_NAME}#${env.BUILD_NUMBER} - ${env.BUILD_URL}", failOnError: false
 
   stage 'clone cookbook'
   git url: 'https://github.com/TYPO3-cookbooks/''' + repoName + '''.git'
@@ -123,9 +123,9 @@ node {
 
   if (currentBuild.result == 'FAILURE') {
     error "Build failed"
-    slackSend message: "Build Failed - ${env.JOB_NAME}: ${env.BUILD_NUMBER}", failOnError: false, color: 'bad'
+    slackSend message: "Build Failed - ${env.JOB_NAME}#${env.BUILD_NUMBER} - ${env.BUILD_URL}", failOnError: false, color: 'bad'
   } else {
-    slackSend message: "Build Successful - ${env.JOB_NAME}: ${env.BUILD_NUMBER}", failOnError: false, color: 'good'
+    slackSend message: "Build Successful - ${env.JOB_NAME}#${env.BUILD_NUMBER} - ${env.BUILD_URL}", failOnError: false, color: 'good'
   }
 
 }
