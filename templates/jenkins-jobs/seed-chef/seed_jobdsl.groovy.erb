@@ -157,7 +157,7 @@ job('chef-repo') {
   displayName('Main Chef repo')
 
   scm {
-    git("<%= node['site-chefcitypo3org']['main_repo'] %>", "steffen-test")
+    git("<%= node['site-chefcitypo3org']['main_repo'] %>")
   }
 
 
