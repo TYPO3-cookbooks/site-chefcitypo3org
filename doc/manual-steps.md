@@ -23,10 +23,14 @@ Place this private key into `/var/lib/jenkins/.chef/client.pem` (and validate th
 
 ### Github.com Credentials
 
-* TODO
+* Go to _Manage Jenkins_ and _Configure System_.
+* In the _GitHub_ section, add a new _GitHub Server_.
+* Use the _Add_ button to add the credentials for the _chefcitypo3org_ user and convert it to a token
+* Activate _Manage hooks_
+* Under _Advanced_, hooks can be updated using the _Re-register hooks for all jobs_ - but only for jobs that already ran.
 
-### Manually Run Seed Job
- 
- As of version 2.4.1 of the [jenkins](https://supermarket.chef.io/cookbooks/jenkins) cookbook, the latest changes in _master_ to add the `:build` action to the `jenkins_job` resource have not been released, yet.
- Therefore, manually run the _Job DSL seed job_, which creates all other jobs.
- 
+### Gerrit
+
+* Place the private key of the typo3.org user that is registered in Gerrit in `/var/lib/jenkins/.ssh/id_rsa`.
+* Go to _Manage Jenkins_ and _Gerrit Trigger_.
+* Add `review.typo3.org` as a new server.
