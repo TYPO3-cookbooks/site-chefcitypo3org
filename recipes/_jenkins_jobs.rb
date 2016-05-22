@@ -19,6 +19,10 @@
 # limitations under the License.
 #
 
+
+#######################
+# JobDSL Seed
+#######################
 seed_chef_job_xml = File.join(Chef::Config[:file_cache_path], "seed-chef.xml")
 
 template seed_chef_job_xml do
@@ -52,3 +56,18 @@ template "#{node['jenkins']['master']['home']}/jobs/seed-chef/workspace/seed_job
   notifies  :build, "jenkins_job[seed-chef]"
 end
 
+#######################
+# Github Organization TYPO3-cookbooks
+#######################
+cookbook_org_job_xml = File.join(Chef::Config[:file_cache_path], "TYPO3-cookbooks.xml")
+
+template seed_chef_job_xml do
+  source "jenkins-jobs/github-organization-folder/TYPO3-cookbooks.xml.erb"
+  notifies  :create, "jenkins_job[TYPO3-cookbooks]", :immediately
+  notifies  :build, "jenkins_job[TYPO3-cookbooks]"
+end
+
+jenkins_job "TYPO3-cookbooks" do
+  action :nothing
+  config cookbook_org_job_xml
+end
