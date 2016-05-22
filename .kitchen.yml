@@ -54,9 +54,6 @@ suites:
     run_list:
       - recipe[site-chefcitypo3org::default]
     attributes:
-      jenkins:
-        master:
-          endpoint: http://192.168.88.23:8080
       site-chefcitypo3org:
         main_repo: ssh://<%= ENV['JENKINS_T3O_USER'] %>@review.typo3.org:29418/Teams/Server/Chef.git
         auth:
