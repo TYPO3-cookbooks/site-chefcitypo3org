@@ -30,6 +30,8 @@ end
 jenkins_job "seed-chef" do
   action :nothing
   config seed_chef_job_xml
+  # because without updated plugins, it fails at the first start
+  ignore_failure true
 end
 
 # TODO - fix this, file might be overridden by git clone in the seed job
