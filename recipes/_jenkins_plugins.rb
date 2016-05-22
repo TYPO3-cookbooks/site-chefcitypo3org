@@ -36,6 +36,7 @@ plugins = [
 
 plugins.each_with_index do | plugin, index |
   jenkins_plugin plugin do
+    # we want to restart Jenkins after the last plugin installation
     notifies :execute, "jenkins_command[safe-restart]", :immediately if index == plugins.length - 1
   end
 end

@@ -1,3 +1,9 @@
+=begin
+#<
+ChefDK setup
+#>
+=end
+
 chef_dk 'site-chefcitypo3org_chefdk' do
   version node['site-chefcitypo3org']['chefdk']['version']
   global_shell_init true

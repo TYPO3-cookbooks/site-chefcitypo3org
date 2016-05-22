@@ -1,10 +1,11 @@
+=begin
+#<
+Install and configure Jenkins
+#>
+=end
+
 # Finally, install jenkins
 include_recipe "jenkins::master"
-
-# LTS version
-#r = resources("apt_repository[jenkins]")
-#r.uri 'http://pkg.jenkins-ci.org/debian-stable'
-#r.key 'http://pkg.jenkins-ci.org/debian-stable/jenkins-ci.org.key'
 
 jenkins_command 'safe-restart' do
   action :nothing
@@ -25,6 +26,3 @@ jenkins_script 'jenkins-location-configuration' do
 
   EOH
 end
-
-# Jenkins.instance.setNumExecutors(4)
-
