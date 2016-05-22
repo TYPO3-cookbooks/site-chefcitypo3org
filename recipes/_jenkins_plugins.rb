@@ -23,6 +23,7 @@ plugins = [
   "job-dsl",
   # "git" => "2.4.4", # version installed by default is too old for pipeline
   "github",
+  "github-organization-folder",
   "gerrit-trigger",
   "clone-workspace-scm",
   "warnings",
