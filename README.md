@@ -1,6 +1,18 @@
 # Description
 
-Provisions a Jenkins master server.
+This project contains the Chef setup for a Jenkins-based CI/CD server for Chef cookbooks from [https://github.com/TYPO3-cookbooks/](https://github.com/TYPO3-cookbooks/).
+
+## Contents
+
+* Jenkins Setup
+  - Install Jenkins LTS
+  - Install Plugins
+* Job Configuration
+  - Seed job to generate the following (based on JobDSL)
+  - Main _chef-repo_ job to validate and upload data bags, environments and roles
+  - Multiple cookbook pipelines for cookbook testing and upload
+* Feature Highlights
+  - Parallelized execution of test-kitchen tests on different nodes
 
 # Requirements
 
@@ -43,125 +55,6 @@ Provisions a Jenkins master server.
 
 Wires together all the pieces
 
-Jenkins Infrastructure for TYPO3 Cookbook Testing
-=================================================
-
-This project contains a Chef repository for a Jenkins setup for testing the TYPO3 Chef Cookbooks from [https://github.com/TYPO3-cookbooks/](https://github.com/TYPO3-cookbooks/).
-
-
-
-Vagrant Box for Development
-===========================
-
-The project contains a `Vagrantfile` that creates a Vagrant box for local development.
-
-
-
-What's inside?
---------------
-
-The Vagrant Box contains
-
-* A chef-client for provisioning the box
-* A Jenkins Server provisioned by Chef
-* All the plugins that are required for running the Jenkins jobs in your virtual machine
-* ChefDK
-* VirtualBox
-* Vagrant
-
-
-
-Setup of the Vagrant Box
-------------------------
-
-Run the following commands to get started with the Vagrant Box:
-
-    gem install bundler
-    bundle install
-    berks vendor -b cookbooks/site_t3chefjenkins_dev/Berksfile berks-cookbooks
-
-Make sure to run the `berks` command above every time you changed the cookbook before you run `vagrant provision`
-
-(TODO) describe how to set up ChefDK and only use TestKitchen (which is hopefully provided by ChefDK).
-
-
-
-Usage of the Vagrant Box
-------------------------
-
-1. Clone this repository to some local directory
-1. Run `vagrant up` to bring the machine up
-1. Run `vagrant ssh` to ssh into the machine
-
-
-
-Project Roadmap
-===============
-
-The following "epics" shall be achieved
-
-1. (/) Installing all necessary Chef tools (ChefDK)
-1. (/) Setting up a basic Jenkins Server
-1. (/) Installing necessary plugins for seed jobs and the Jenkins pipeline plugin
-1. (/) Configuring a seed job for the TYPO3 cookbooks (from Github)
-1. Configuring a seed job for the TYPO3 Chef Repository (from Gerrit)
-1. Run cookbook tests on Jenkins (ServerSpec and ChefSpec) using TestKitchen and Docker
-1. Managing Jenkins jobs to push the cookbooks to the Chef Server
-
-
-
-Jenkins Job Provisioning with Chef
-----------------------------------
-
-Our goal is to provision a Jenkins server that has a build pipeline for every Chef cookbook developed by the TYPO3 server team. The cookbooks can be found in this Github organization: [https://github.com/TYPO3-cookbooks/](https://github.com/TYPO3-cookbooks/). The rough sketch of the provisioning is as follows:
-
-1. Chef provisions a Jenkins server with the [job-dsl plugin](https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin) and the [pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin)
-
-1. Chef provisions a seed job (a job-dsl job) that
-
-    1. uses the Github API to read all repositories from the TYPO3-cookbooks organization
-
-    1. creates a [pipeline](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin) job for each of these repositories
-
-Afterwards we have a Jenkins server with a build pipeline for every cookbook in the TYPO3-cookbooks organization.
-
-
-
-Open Issues
-===========
-
-* (/) The Jenkins jobs are build with Jobs DSL Plugin using "classic Jenkins jobs" - we should take a look at the [pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin) as this will keep the number of jobs smaller
-* From time to time we get a `Jenkins::Helper::JenkinsNotReady` error when provisioning Jenkins. We then have to ssh into the machine and re-start Jenkins manually...
-* (/) Jenkins is currently not started as a service - but that's what we want... see [https://github.com/TYPO3-infrastructure/chef-jenkins/commit/64367b4e00313c89824f1cc23a1a40f1d5a58f67]
-* We get "out of limit warnings" from Github since we are currently using an unauthenticated API request. We should use API credentials to prevent this.
-* Currently we do not handle cookbook upload to Chef Server
-* Get rid of Vagrant and write documentation how to use Testkitchen
-* Write some Unit / Integration tests
-* Refactor `site_t3chefjenkins_dev` into `app_t3chefjenkins` and `site_t3chefjenkins_prod` for separating dev and prod environment
-* Write cookbook doc and use `knife-cookbook-doc` to render cookbook README
-
-
-
-Further Resources
-=================
-
-* Codecentric Blog Post [Using Jenkins Job DSL for Job Lifecycle Management](https://blog.codecentric.de/en/2015/10/using-jenkins-job-dsl-for-job-lifecycle-management/)
-* [Jobs DSL Plugin on Github](https://github.com/jenkinsci/job-dsl-plugin/wiki)
-* [Jobs DSL Documentation for seeding Workflow / Pipeline Jobs](https://jenkinsci.github.io/job-dsl-plugin/#path/workflowJob)
-* [Jenkins Workflow / Pipeline plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin)
-
-
-
-Authors
-=======
-
-* Steffen Gebert
-* Andreas Wolf
-* Michael Lihs
-
-
-
-
 Manual Steps
 ------------
 
@@ -171,11 +64,14 @@ After chef provisioning, some manual steps have to be excecuted, in order to fin
 
 Update all Plugins, i.e., a newer version of the Github and Pipeline plugins are required.
 
-### SSH Credentials for Gerrit
+### Gerrit Credentials and Trigger
 
-In order to let Jenkins connect to the main _chef-repo_ located in Gerrit, SSH credentials have to be added.
-
+* In order to let Jenkins connect to the main _chef-repo_ located in Gerrit, SSH credentials have to be added.
 Replace the contents of `/var/lib/jenkins/.ssh/id_rsa` with the RSA private key.
+
+* In order to trigger Jenkins, once a change is pushed, set up the _Gerrit Trigger_:
+  - Go to _Manage Jenkins_ and _Gerrit Trigger_.
+  - Add `review.typo3.org` as a new server.
 
 ### Chef User Credentials
 
@@ -193,14 +89,29 @@ Place this private key into `/var/lib/jenkins/.chef/client.pem` (and validate th
 * Activate _Manage hooks_
 * Under _Advanced_, hooks can be updated using the _Re-register hooks for all jobs_ - but only for jobs that already ran.
 
-### Gerrit
 
-* Place the private key of the typo3.org user that is registered in Gerrit in `/var/lib/jenkins/.ssh/id_rsa`.
-* Go to _Manage Jenkins_ and _Gerrit Trigger_.
-* Add `review.typo3.org` as a new server.
+Testing (isolated from TYPO3)
+----------------
+
+This cookbook is tailored to the needs at [TYPO3](https://typo3.org).
+
+In order to let give it a try without credentials to our Chef server, you have to adjust the following pices:
+
+* `Berksfile`: remove line `source 'http://chef.typo3.org:26200'`
+* `metadata.rb`: remove line `depends 't3-base', '~> 0.2.0'`
+* `recipes/default.rb`: remove line `include_recipe "t3-base"`
+
+
+TODOs
+-----
+
+[/] Use `github-organization-folder` plugin to scan for `Jenkinsfiles` in all repos.
+[/] Use slaves to keep the master clean.
+[/] Better highlight the error case (instead of requiring to scan through 2MB logs)
+
 
 # License and Maintainer
 
-Maintainer:: Michael Lihs (<mimi@kaktusteam.def>)
+Maintainer:: TYPO3 Server Admin Team (<adminATtypo3DOTorg>)
 
-License:: All rights reserved
+License:: Apache 2.0
