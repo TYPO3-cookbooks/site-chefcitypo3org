@@ -175,4 +175,10 @@ job('chef-repo') {
 
     shell('scripts/upload-changes.sh $GIT_PREVIOUS_COMMIT..$GIT_COMMIT')
   }
+
+  // do not block this quick job by slow ones
+  properties {
+    priority(10)
+  }
+  quietPeriod(1)
 }

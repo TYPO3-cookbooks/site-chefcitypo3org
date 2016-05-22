@@ -31,6 +31,7 @@ plugins = [
   "ansicolor",
   "greenballs",
   "slack",
+  "PrioritySorter",
 ]
 
 plugins.each_with_index do | plugin, index |
