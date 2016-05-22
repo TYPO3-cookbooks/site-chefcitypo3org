@@ -7,11 +7,14 @@ After chef provisioning, some manual steps have to be excecuted, in order to fin
 
 Update all Plugins, i.e., a newer version of the Github and Pipeline plugins are required.
 
-### SSH Credentials for Gerrit
+### Gerrit Credentials and Trigger
 
-In order to let Jenkins connect to the main _chef-repo_ located in Gerrit, SSH credentials have to be added.
-
+* In order to let Jenkins connect to the main _chef-repo_ located in Gerrit, SSH credentials have to be added.
 Replace the contents of `/var/lib/jenkins/.ssh/id_rsa` with the RSA private key.
+
+* In order to trigger Jenkins, once a change is pushed, set up the _Gerrit Trigger_:
+  - Go to _Manage Jenkins_ and _Gerrit Trigger_.
+  - Add `review.typo3.org` as a new server.
   
 ### Chef User Credentials
 
@@ -28,9 +31,3 @@ Place this private key into `/var/lib/jenkins/.chef/client.pem` (and validate th
 * Use the _Add_ button to add the credentials for the _chefcitypo3org_ user and convert it to a token
 * Activate _Manage hooks_
 * Under _Advanced_, hooks can be updated using the _Re-register hooks for all jobs_ - but only for jobs that already ran.
-
-### Gerrit
-
-* Place the private key of the typo3.org user that is registered in Gerrit in `/var/lib/jenkins/.ssh/id_rsa`.
-* Go to _Manage Jenkins_ and _Gerrit Trigger_.
-* Add `review.typo3.org` as a new server.
