@@ -1,8 +1,8 @@
 name             'site-chefcitypo3org'
-maintainer       'Michael Lihs'
-maintainer_email 'mimi@kaktusteam.def'
-license          'All rights reserved'
-description      'Provisions a Jenkins master server.'
+maintainer       'TYPO3 Server Admin Team'
+maintainer_email 'adminATtypo3DOTorg'
+license          'Apache 2.0'
+description      'Provisions a Chef CI/CD server based on Jenkins.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.14'
 
@@ -20,4 +20,3 @@ depends          'chef-dk',           '= 3.1.0'
 depends          'sudo'
 depends          'apt'
 depends          'git'
-
