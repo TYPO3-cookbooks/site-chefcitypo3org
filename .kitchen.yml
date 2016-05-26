@@ -59,6 +59,8 @@ suites:
         auth:
           github_client_id: <%= ENV['JENKINS_GITHUB_CLIENT_ID'] %>
           github_client_secret: <%= ENV['JENKINS_GITHUB_CLIENT_SECRET'] %>
+          github_user: <%= ENV['JENKINS_GITHUB_USER'] %>
+          github_token: <%= ENV['JENKINS_GITHUB_TOKEN'] %>
 <% if use_your_chef_credentials and is_configured? %>
         knife_config: <%= client_config.to_json %>
         knife_client_key: '<%= client_key_contents_escaped %>'

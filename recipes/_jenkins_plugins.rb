@@ -4,11 +4,6 @@ Installs Jenkins plugins
 #>
 =end
 
-# we really need a version newer than 2.2.x and I don't know why, but below
-# code does not install the new version.
-jenkins_plugin "git" do
-  source "https://updates.jenkins-ci.org/download/plugins/git/2.4.4/git.hpi"
-end
 
 plugins = [
   "workflow-aggregator",
@@ -21,8 +16,9 @@ plugins = [
   "pipeline-stage-view",
   "script-security",
   "job-dsl",
-  # "git" => "2.4.4", # version installed by default is too old for pipeline
+  "git",
   "github",
+  "github-oauth",
   "github-organization-folder",
   "gerrit-trigger",
   "clone-workspace-scm",
@@ -41,7 +37,9 @@ plugins.each_with_index do | plugin, index |
   end
 end
 
-jenkins_plugin "github-oauth" do
+# we really need a version newer than 2.2.x and the jenkins cookbook installs arbitrary versions
+jenkins_plugin "git" do
+  source "https://updates.jenkins-ci.org/download/plugins/git/2.4.4/git.hpi"
   notifies :execute, "jenkins_command[safe-restart]", :immediately
 end
 

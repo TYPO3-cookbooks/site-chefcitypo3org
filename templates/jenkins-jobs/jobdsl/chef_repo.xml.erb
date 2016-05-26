@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <displayName>Seed: Chef jobs</displayName>
-  <description>Seed job to create Jenkins jobs (Chef cookbooks, main repo) using Job DSL</description>
+  <displayName>Seed: Chef Main Repo</displayName>
+  <description>Seed job to create Jenkins jobs (Chef main repo) using Job DSL</description>
   <keepDependencies>false</keepDependencies>
   <properties/>
   <scm class="hudson.scm.NullSCM"/>
@@ -14,7 +14,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.45">
-      <targets>seed_jobdsl.groovy</targets>
+      <targets>chef_repo.groovy</targets>
       <usingScriptText>false</usingScriptText>
       <ignoreExisting>false</ignoreExisting>
       <removedJobAction>DELETE</removedJobAction>
