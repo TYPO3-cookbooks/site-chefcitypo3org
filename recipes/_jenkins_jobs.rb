@@ -50,6 +50,8 @@ end
 jenkins_job "TYPO3-cookbooks" do
   action :nothing
   config cookbook_org_job
+  # as our plugins aren't up to date, building this job fails until they're updated
+  ignore_failure true
 end
 
 # token of the chefcitypo3org user

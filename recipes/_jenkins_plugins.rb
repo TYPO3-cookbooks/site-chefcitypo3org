@@ -40,6 +40,10 @@ end
 # we really need a version newer than 2.2.x and the jenkins cookbook installs arbitrary versions
 jenkins_plugin "git" do
   source "https://updates.jenkins-ci.org/download/plugins/git/2.4.4/git.hpi"
+  notifies :execute, "jenkins_command[safe-restart]"
+  end
+jenkins_plugin "github-api" do
+  source "https://updates.jenkins-ci.org/download/plugins/github-api/1.75/github-api.hpi"
   notifies :execute, "jenkins_command[safe-restart]", :immediately
 end
 
