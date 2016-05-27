@@ -18,8 +18,6 @@ end
 jenkins_job "chef-repo-seed" do
   action :nothing
   config chef_repo_jobdsl_job
-  # because without updated plugins, it fails at the first start
-  # ignore_failure true
 end
 
 directory "#{node['jenkins']['master']['home']}/jobs/chef-repo-seed/workspace/" do
@@ -50,8 +48,6 @@ end
 jenkins_job "TYPO3-cookbooks" do
   action :nothing
   config cookbook_org_job
-  # as our plugins aren't up to date, building this job fails until they're updated
-  ignore_failure true
 end
 
 # token of the chefcitypo3org user
