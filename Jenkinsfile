@@ -105,6 +105,10 @@ node {
   } else {
     sh "echo slack disabled"
     // slackSend message: "Build Successful - ${env.JOB_NAME}: ${env.BUILD_NUMBER}", failOnError: false, color: 'good'
+
+    def artifactName = "cookbooks-${env.BUILD_TAG}.tar.gz"
+    sh "berks package ${artifactName}"
+    archive includes: artifactName
   }
 
 }
