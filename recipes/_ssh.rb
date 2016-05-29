@@ -1,4 +1,8 @@
-# Set up the SSH known hosts
+=begin
+#<
+Set up the SSH known hosts
+#>
+=end
 
 ssh_known_hosts_entry "github.com"
 ssh_known_hosts_entry "review.typo3.org" do

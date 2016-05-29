@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jenkins.branch.OrganizationFolder plugin="branch-api@1.8">
+  <actions>
+    <org.jenkinsci.plugins.orgfolder.github.GitHubOrgAction plugin="github-organization-folder@1.3">
+      <url>https://github.com/TYPO3-cookbooks</url>
+      <name>TYPO3&apos;s Chef Cookbooks</name>
+      <avatar>https://avatars.githubusercontent.com/u/2108245?v=3</avatar>
+    </org.jenkinsci.plugins.orgfolder.github.GitHubOrgAction>
+    <org.jenkinsci.plugins.orgfolder.github.GitHubLink plugin="github-organization-folder@1.3">
+      <image>logo</image>
+      <url>https://github.com/TYPO3-cookbooks</url>
+    </org.jenkinsci.plugins.orgfolder.github.GitHubLink>
+  </actions>
+  <description></description>
+  <displayName>TYPO3&apos;s Chef Cookbooks</displayName>
+  <properties>
+    <com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider_-FolderCredentialsProperty plugin="cloudbees-folder@5.10">
+      <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash">
+        <entry>
+          <com.cloudbees.plugins.credentials.domains.Domain plugin="credentials@2.0">
+            <specifications/>
+          </com.cloudbees.plugins.credentials.domains.Domain>
+          <java.util.concurrent.CopyOnWriteArrayList/>
+        </entry>
+      </domainCredentialsMap>
+    </com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider_-FolderCredentialsProperty>
+  </properties>
+  <views>
+    <hudson.model.ListView>
+      <owner class="jenkins.branch.OrganizationFolder" reference="../../.."/>
+      <name>Repositories</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator"/>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <org.jenkinsci.plugins.orgfolder.github.CustomNameJobColumn plugin="github-organization-folder@1.3">
+          <bundle>org.jenkinsci.plugins.orgfolder.github.Messages</bundle>
+          <key>ListViewColumn.Repository</key>
+        </org.jenkinsci.plugins.orgfolder.github.CustomNameJobColumn>
+        <org.jenkinsci.plugins.orgfolder.github.RepositoryDescriptionColumn plugin="github-organization-folder@1.3"/>
+      </columns>
+      <includeRegex>.*</includeRegex>
+      <recurse>false</recurse>
+    </hudson.model.ListView>
+  </views>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <primaryView>Repositories</primaryView>
+  <healthMetrics>
+    <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@5.10"/>
+  </healthMetrics>
+  <icon class="org.jenkinsci.plugins.orgfolder.github.GitHubOrgIcon" plugin="github-organization-folder@1.3">
+    <folder class="jenkins.branch.OrganizationFolder" reference="../.."/>
+  </icon>
+  <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@5.10">
+    <pruneDeadBranches>true</pruneDeadBranches>
+    <daysToKeep>7</daysToKeep>
+    <numToKeep>0</numToKeep>
+  </orphanedItemStrategy>
+  <triggers>
+    <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@5.11">
+      <spec>H H * * *</spec>
+      <interval>86400000</interval>
+    </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
+  </triggers>
+  <navigators>
+    <org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator plugin="github-branch-source@1.7">
+      <repoOwner>TYPO3-cookbooks</repoOwner>
+      <scanCredentialsId>github-chefcitypo3org-token</scanCredentialsId>
+      <checkoutCredentialsId>SAME</checkoutCredentialsId>
+      <pattern>.*</pattern>
+    </org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator>
+  </navigators>
+  <projectFactories>
+    <org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProjectFactory plugin="workflow-multibranch@2.3"/>
+  </projectFactories>
+</jenkins.branch.OrganizationFolder>

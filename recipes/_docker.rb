@@ -1,3 +1,9 @@
+=begin
+#<
+Installs Docker
+#>
+=end
+
 apt_repository "docker" do
   uri "https://apt.dockerproject.org/repo"
   distribution "#{node['platform']}-#{node['lsb']['codename']}"
