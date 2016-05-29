@@ -53,8 +53,9 @@ end
 # token of the chefcitypo3org user
 jenkins_password_credentials node['site-chefcitypo3org']['auth']['github_user'] do
   id "github-chefcitypo3org-token"
-  password node['site-chefcitypo3org']['auth']['github_token'] || "nothing-given"
+  password node['site-chefcitypo3org']['auth']['github_token']
   description "Github API token"
+  only_if { node['site-chefcitypo3org']['auth']['github_token'] }
 end
 
 #######################
