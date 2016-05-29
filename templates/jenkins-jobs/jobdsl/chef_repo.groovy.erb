@@ -1,0 +1,35 @@
+job('chef-repo') {
+
+  displayName('Main Chef repo')
+
+  scm {
+    git("<%= node['site-chefcitypo3org']['main_repo'] %>")
+  }
+
+  triggers {
+    gerrit {
+      events {
+        refUpdated()
+      }
+      project('Teams/Server/Chef', 'master')
+    }
+  }
+
+  wrappers {
+    colorizeOutput('xterm')
+  }
+
+  steps {
+    // at first, we finalize the config so that we can still connect to the chef server (by symlinking ~/.chef/config.rb)
+    shell('[ -h ".chef/knife.local.rb" ] && true || ln -s ~/.chef/config.rb .chef/knife.local.rb')
+
+
+    shell('scripts/upload-changes.sh $GIT_PREVIOUS_COMMIT..$GIT_COMMIT')
+  }
+
+  // do not block this quick job by slow ones
+  properties {
+    priority(10)
+  }
+  quietPeriod(1)
+}

@@ -1,43 +1,26 @@
-#
-# Cookbook Name:: cooking-with-jenkins
-# Recipe:: define-jenkins-jobs
-#
-# Adds jobs in Jenkins for testing our cookbooks
-#
-# Copyright (C) 2013 Zachary Stevens
-# 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+=begin
+#<
+Defines the Jenkins jobs
+#>
+=end
 
-seed_chef_job_xml = File.join(Chef::Config[:file_cache_path], "seed-chef.xml")
+#######################
+# JobDSL Seed
+#######################
+chef_repo_jobdsl_job = File.join(Chef::Config[:file_cache_path], "chef_repo_seed.xml")
 
-template seed_chef_job_xml do
-  source "jenkins-jobs/seed-chef/seed-chef.xml.erb"
-  notifies  :create, "jenkins_job[seed-chef]", :immediately
-  notifies  :build, "jenkins_job[seed-chef]"
+template chef_repo_jobdsl_job do
+  source "jenkins-jobs/jobdsl/chef_repo.xml.erb"
+  notifies  :create, "jenkins_job[chef-repo-seed]", :immediately
+  notifies  :build, "jenkins_job[chef-repo-seed]"
 end
 
-jenkins_job "seed-chef" do
+jenkins_job "chef-repo-seed" do
   action :nothing
-  config seed_chef_job_xml
-  # because without updated plugins, it fails at the first start
-  ignore_failure true
+  config chef_repo_jobdsl_job
 end
 
-# TODO - fix this, file might be overridden by git clone in the seed job
-# TODO - so either remove the git cloning (which means, we have to run Chef every time this script changes)
-# TODO - or make the seed job work with the file that is acutally checked out by git
-directory "#{node['jenkins']['master']['home']}/jobs/seed-chef/workspace/" do
+directory "#{node['jenkins']['master']['home']}/jobs/chef-repo-seed/workspace/" do
   action :create
   owner     node['jenkins']['master']['user']
   group     node['jenkins']['master']['group']
@@ -45,10 +28,43 @@ directory "#{node['jenkins']['master']['home']}/jobs/seed-chef/workspace/" do
 end
 
 
-template "#{node['jenkins']['master']['home']}/jobs/seed-chef/workspace/seed_jobdsl.groovy" do
-  source "jenkins-jobs/seed-chef/seed_jobdsl.groovy.erb"
+template "#{node['jenkins']['master']['home']}/jobs/chef-repo-seed/workspace/chef_repo.groovy" do
+  source "jenkins-jobs/jobdsl/chef_repo.groovy.erb"
   owner     node['jenkins']['master']['user']
   group     node['jenkins']['master']['group']
-  notifies  :build, "jenkins_job[seed-chef]"
+  notifies  :build, "jenkins_job[chef-repo-seed]"
 end
 
+#######################
+# Github Organization TYPO3-cookbooks
+#######################
+cookbook_org_job = File.join(Chef::Config[:file_cache_path], "TYPO3-cookbooks.xml")
+
+template cookbook_org_job do
+  source "jenkins-jobs/github-organization-folder/TYPO3-cookbooks.xml.erb"
+  notifies  :create, "jenkins_job[TYPO3-cookbooks]", :immediately
+end
+
+jenkins_job "TYPO3-cookbooks" do
+  action :nothing
+  config cookbook_org_job
+end
+
+# token of the chefcitypo3org user
+jenkins_password_credentials node['site-chefcitypo3org']['auth']['github_user'] do
+  id "github-chefcitypo3org-token"
+  password node['site-chefcitypo3org']['auth']['github_token'] || "nothing-given"
+  description "Github API token"
+end
+
+#######################
+# Workflow Global Library
+#######################
+
+git "workflow-libs" do
+  destination File.join(node['jenkins']['master']['home'], "workflow-libs")
+  repository "https://github.com/TYPO3-infrastructure/jenkins-pipeline-global-library-chefci"
+  user node['jenkins']['master']['user']
+  group node['jenkins']['master']['group']
+  retries 5
+end

@@ -11,3 +11,9 @@ default['site-chefcitypo3org']['auth']['github_client_id'] = nil
 
 #<> Github OAuth client secret
 default['site-chefcitypo3org']['auth']['github_client_secret'] = nil
+
+#<> Github Username
+default['site-chefcitypo3org']['auth']['github_user'] = "chefcitypo3org"
+
+#<> Github Token
+default['site-chefcitypo3org']['auth']['github_token'] = nil

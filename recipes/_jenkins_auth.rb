@@ -1,3 +1,9 @@
+=begin
+#<
+Sets up Authentication
+#>
+=end
+
 require 'openssl'
 require 'net/ssh'
 
