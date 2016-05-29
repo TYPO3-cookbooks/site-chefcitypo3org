@@ -56,3 +56,15 @@ jenkins_password_credentials node['site-chefcitypo3org']['auth']['github_user'] 
   password node['site-chefcitypo3org']['auth']['github_token'] || "nothing-given"
   description "Github API token"
 end
+
+#######################
+# Workflow Global Library
+#######################
+
+git "workflow-libs" do
+  destination File.join(node['jenkins']['master']['home'], "workflow-libs")
+  repository "https://github.com/TYPO3-infrastructure/jenkins-pipeline-global-library-chefci"
+  user node['jenkins']['master']['user']
+  group node['jenkins']['master']['group']
+  retries 5
+end
