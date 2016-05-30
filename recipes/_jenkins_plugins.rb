@@ -28,6 +28,7 @@ plugins = [
   "greenballs",
   "slack",
   "PrioritySorter",
+  "embeddable-build-status",
 ]
 
 plugins.each_with_index do | plugin, index |
