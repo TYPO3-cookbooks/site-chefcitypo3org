@@ -12,6 +12,8 @@ This project contains the Chef setup for a Jenkins-based CI/CD server for Chef c
   - Main _chef-repo_ job to validate and upload data bags, environments and roles
   - Multiple cookbook pipelines for cookbook testing and upload
 * Feature Highlights
+  - Fully automated job setup using JobDSL and Pipeline
+  - Integration with Gerrit (for private main _chef-repo_) and Github (for cookbooks)
   - Parallelized execution of test-kitchen tests on different nodes
 
 # Requirements
@@ -33,19 +35,19 @@ This project contains the Chef setup for a Jenkins-based CI/CD server for Chef c
 
 # Attributes
 
+* `node['site-chefcitypo3org']['chefdk']['version']` - Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk. Defaults to `0.12.0-1`.
+* `node['site-chefcitypo3org']['kitchen']['chef_version']` - Configures the version of Chef to use for test-kitchen runs. Defaults to `12.5.1`.
 * `node['site-chefcitypo3org']['url']` - Public URL of the Jenkins master. Defaults to `https://chef-ci.typo3.org`.
+* `node['site-chefcitypo3org']['main_repo']` - URL of the main chef repo. Defaults to `ssh://chef-jenkins@review.typo3.org:29418/Teams/Server/Chef.git`.
 * `node['jenkins']['master']['repository']` - Install Jenkins LTS. Defaults to `http://pkg.jenkins-ci.org/debian-stable`.
 * `node['java']['jdk_version']` - Sets the required Java version. Defaults to `7`.
 * `node['java']['install_flavor']` - Sets the Java installation distribution. Defaults to `openjdk`.
-* `node['jenkins']['master']['shell']` - Sets the default shell for the jenkins system user. Defaults to `/bin/bash`.
-* `node['jenkins']['master']['plugins']` - Configures the Jenkins plugins to be installed on the server. Defaults to `{ ... }`.
-* `node['site-chefcitypo3org']['chefdk']['version']` - Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk. Defaults to `0.12.0-1`.
-* `node['site-chefcitypo3org']['kitchen']['chef_version']` - Configures the version of Chef to use for test-kitchen runs. Defaults to `12.5.1`.
 * `node['site-chefcitypo3org']['knife_config']` - The knife/chef configuration for communicating with the Chef API. Defaults to `{ ... }`.
 * `node['site-chefcitypo3org']['knife_client_key']` - Optionally (for local testing), the contents of a chef admin's key (\n replaced with |). Defaults to `nil`.
-* `node['site-chefcitypo3org']['main_repo']` - URL of the main chef repo. Defaults to `ssh://chef-jenkins@review.typo3.org:29418/Teams/Server/Chef.git`.
 * `node['site-chefcitypo3org']['auth']['github_client_id']` - Github OAuth client ID. Defaults to `nil`.
 * `node['site-chefcitypo3org']['auth']['github_client_secret']` - Github OAuth client secret. Defaults to `nil`.
+* `node['site-chefcitypo3org']['auth']['github_user']` - Github Username. Defaults to `chefcitypo3org`.
+* `node['site-chefcitypo3org']['auth']['github_token']` - Github Token. Defaults to `nil`.
 
 # Recipes
 
@@ -54,6 +56,15 @@ This project contains the Chef setup for a Jenkins-based CI/CD server for Chef c
 ## site-chefcitypo3org::default
 
 Wires together all the pieces
+
+Build Status
+------------
+
+Build status on our [CI server](https://chef-ci.typo3.org):
+
+- *master* (release): [![Build Status master branch](https://chef-ci.typo3.org/job/TYPO3-cookbooks/job/site-chefcitypo3org/branch/master/badge/icon)](https://chef-ci.typo3.org/job/TYPO3-cookbooks/job/site-chefcitypo3org/branch/master/)
+- *develop* (next release): [![Build Status develop branch](https://chef-ci.typo3.org/job/TYPO3-cookbooks/job/site-chefcitypo3org/branch/develop/badge/icon)](https://chef-ci.typo3.org/job/TYPO3-cookbooks/job/site-chefcitypo3org/branch/develop/)
+
 
 Manual Steps
 ------------
