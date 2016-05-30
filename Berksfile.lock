@@ -100,7 +100,7 @@ GRAPH
   screen (0.7.0)
   seven_zip (2.0.0)
     windows (>= 1.2.2)
-  site-chefcitypo3org (1.0.2)
+  site-chefcitypo3org (1.0.3)
     apt (>= 0.0.0)
     chef-dk (= 3.1.0)
     git (>= 0.0.0)
