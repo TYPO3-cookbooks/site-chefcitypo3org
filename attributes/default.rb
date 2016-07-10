@@ -1,9 +1,12 @@
+#<> Disable Jenkins 2.0 setup wizard - currently until this is fixed: https://github.com/chef-cookbooks/jenkins/pull/471
+default['jenkins']['master']['jvm_options'] = "-Djenkins.install.runSetupWizard=false"
+
 #################
 # Versions
 #################
 
 #<> Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk
-default['site-chefcitypo3org']['chefdk']['version'] = "0.12.0-1"
+default['site-chefcitypo3org']['chefdk']['version'] = "0.15.16-1"
 
 #<> Configures the version of Chef to use for test-kitchen runs
 default['site-chefcitypo3org']['kitchen']['chef_version'] = "12.5.1"
