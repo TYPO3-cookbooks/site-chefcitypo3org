@@ -1,3 +1,6 @@
+#<> Disable Jenkins 2.0 setup wizard - currently until this is fixed: https://github.com/chef-cookbooks/jenkins/pull/471
+default['jenkins']['master']['jvm_options'] = "-Djenkins.install.runSetupWizard=false"
+
 #################
 # Versions
 #################
