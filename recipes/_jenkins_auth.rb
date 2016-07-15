@@ -30,6 +30,24 @@ end
 # Set the private key on the Jenkins executor
 node.run_state[:jenkins_private_key] = private_key
 
+node.run_state[:github_oauth_client_id]     = node['site-chefcitypo3org']['auth']['github_client_id']
+node.run_state[:github_oauth_client_secret] = node['site-chefcitypo3org']['auth']['github_client_secret']
+
+include_recipe "t3-chef-vault"
+begin
+  node.run_state[:github_oauth_client_id]     ||= chef_vault_password("github.com", "oauth", "client_id")
+rescue
+  Chef::Log.warn "Also could not read oauth client_id from chef-vault"
+end
+
+begin
+  node.run_state[:github_oauth_client_secret] ||= chef_vault_password("github.com", "oauth", "client_secret")
+rescue
+  Chef::Log.warn "Also could not read oauth client_secret from chef-vault"
+end
+
+
+
 # This configures authentication
 jenkins_script 'auth' do
   command <<-EOH.gsub(/^ {4}/, '')
@@ -45,11 +63,11 @@ jenkins_script 'auth' do
 
     // We guard the security realm setup in a check that is based on the github_client_secret chef attribute.
     // In production, we manually configure this. In test-kitchen (see .kitchen.yml), we automatically confgure it through env vars.
-    if ('#{node['site-chefcitypo3org']['auth']['github_client_secret']}') {
+    if ('#{node.run_state[:github_oauth_client_secret]}') {
       String githubWebUri = 'https://github.com'
       String githubApiUri = 'https://api.github.com'
-      String clientID = '#{node['site-chefcitypo3org']['auth']['github_client_id']}'
-      String clientSecret = '#{node['site-chefcitypo3org']['auth']['github_client_secret']}'
+      String clientID = '#{node.run_state[:github_oauth_client_id]}'
+      String clientSecret = '#{node.run_state[:github_oauth_client_secret]}'
       String oauthScopes = 'read:org,user:email'
       SecurityRealm github_realm = new GithubSecurityRealm(githubWebUri, githubApiUri, clientID, clientSecret, oauthScopes)
 
@@ -78,71 +96,4 @@ jenkins_script 'auth' do
       }
     }
   EOH
-end
-
-jenkins_script 'github_authentication' do
-  command <<-EOH.gsub(/^ {4}/, '')
-    import jenkins.model.*
-    import hudson.security.SecurityRealm
-    import org.jenkinsci.plugins.GithubSecurityRealm
-    String githubWebUri = 'https://github.com'
-    String githubApiUri = 'https://api.github.com'
-    String clientID = 'fb64fbdf87f22091c50a'
-    String clientSecret = 'FIXME_FIXME_FIXME_FIXME_FIXME_FIXME'
-    String oauthScopes = 'read:org,user:email'
-    SecurityRealm github_realm = new GithubSecurityRealm(githubWebUri, githubApiUri, clientID, clientSecret, oauthScopes)
-
-
-    //check for equality, no need to modify the runtime if no settings changed
-    if(!github_realm.equals(Jenkins.instance.getSecurityRealm())) {
-      Jenkins.instance.setSecurityRealm(github_realm)
-      Jenkins.instance.save()
-    }
-  EOH
-  action :nothing
-end
-
-jenkins_script 'github_authentication' do
-  command <<-EOH.gsub(/^ {4}/, '')
-    import jenkins.model.*
-    import org.jenkinsci.plugins.GithubAuthorizationStrategy
-    import hudson.security.AuthorizationStrategy
-
-    //permissions are ordered similar to web UI
-    //Admin User Names
-    String adminUserNames = 'StephenKing'
-    //Participant in Organization
-    String organizationNames = 'TYPO3-cookbooks'
-    //Use Github repository permissions
-    boolean useRepositoryPermissions = true
-    //Grant READ permissions to all Authenticated Users
-    boolean authenticatedUserReadPermission = false
-    //Grant CREATE Job permissions to all Authenticated Users
-    boolean authenticatedUserCreateJobPermission = false
-    //Grant READ permissions for /github-webhook
-    boolean allowGithubWebHookPermission = true
-    //Grant READ permissions for /cc.xml
-    boolean allowCcTrayPermission = true
-    //Grant READ permissions for Anonymous Users
-    boolean allowAnonymousReadPermission = true
-    //Grant ViewStatus permissions for Anonymous Users
-    boolean allowAnonymousJobStatusPermission = true
-
-    AuthorizationStrategy github_authorization = new GithubAuthorizationStrategy(adminUserNames,
-                                                                                 authenticatedUserReadPermission,
-                                                                                 useRepositoryPermissions,
-                                                                                 authenticatedUserCreateJobPermission,
-                                                                                 organizationNames,
-                                                                                 allowGithubWebHookPermission,
-                                                                                 allowCcTrayPermission,
-                                                                                 allowAnonymousReadPermission,
-                                                                                 allowAnonymousJobStatusPermission)
-
-    //check for equality, no need to modify the runtime if no settings changed
-    if(!github_authorization.equals(Jenkins.instance.getAuthorizationStrategy())) {
-      Jenkins.instance.setAuthorizationStrategy(github_authorization)
-      Jenkins.instance.save()
-    }
-  EOH
-  action :nothing
 end

@@ -68,3 +68,10 @@ suites:
     driver_config:
       network:
       - ["private_network", {ip: "192.168.88.23"}]
+  - name: databag-secrets
+    data_bags_path: "test/integration/databag-secrets/data_bags"
+    run_list:
+      - recipe[site-chefcitypo3org::default]
+    driver_config:
+      network:
+      - ["private_network", {ip: "192.168.88.24"}]
