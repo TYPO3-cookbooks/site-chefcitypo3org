@@ -30,6 +30,24 @@ end
 # Set the private key on the Jenkins executor
 node.run_state[:jenkins_private_key] = private_key
 
+node.run_state[:github_oauth_client_id]     = node['site-chefcitypo3org']['auth']['github_client_id']
+node.run_state[:github_oauth_client_secret] = node['site-chefcitypo3org']['auth']['github_client_secret']
+
+include_recipe "t3-chef-vault"
+begin
+  node.run_state[:github_oauth_client_id]     ||= chef_vault_password("github.com", "oauth", "client_id")
+rescue
+  Chef::Log.warn "Also could not read oauth client_id from chef-vault"
+end
+
+begin
+  node.run_state[:github_oauth_client_secret] ||= chef_vault_password("github.com", "oauth", "client_secret")
+rescue
+  Chef::Log.warn "Also could not read oauth client_secret from chef-vault"
+end
+
+
+
 # This configures authentication
 jenkins_script 'auth' do
   command <<-EOH.gsub(/^ {4}/, '')
@@ -45,11 +63,11 @@ jenkins_script 'auth' do
 
     // We guard the security realm setup in a check that is based on the github_client_secret chef attribute.
     // In production, we manually configure this. In test-kitchen (see .kitchen.yml), we automatically confgure it through env vars.
-    if ('#{node['site-chefcitypo3org']['auth']['github_client_secret']}') {
+    if ('#{node.run_state[:github_oauth_client_secret]}') {
       String githubWebUri = 'https://github.com'
       String githubApiUri = 'https://api.github.com'
-      String clientID = '#{node['site-chefcitypo3org']['auth']['github_client_id']}'
-      String clientSecret = '#{node['site-chefcitypo3org']['auth']['github_client_secret']}'
+      String clientID = '#{node.run_state[:github_oauth_client_id]}'
+      String clientSecret = '#{node.run_state[:github_oauth_client_secret]}'
       String oauthScopes = 'read:org,user:email'
       SecurityRealm github_realm = new GithubSecurityRealm(githubWebUri, githubApiUri, clientID, clientSecret, oauthScopes)
 
