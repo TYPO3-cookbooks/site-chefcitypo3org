@@ -4,7 +4,6 @@ Installs Jenkins plugins
 #>
 =end
 
-
 plugins = [
   "matrix-auth",
   "workflow-aggregator",
@@ -30,10 +29,10 @@ plugins = [
   "slack",
   "PrioritySorter",
   "embeddable-build-status",
-  "piwikanalytics",
+  "piwikanalytics"
 ]
 
-plugins.each_with_index do | plugin, index |
+plugins.each_with_index do |plugin, index|
   jenkins_plugin plugin do
     # we want to restart Jenkins after the last plugin installation
     notifies :execute, "jenkins_command[safe-restart]", :immediately if index == plugins.length - 1

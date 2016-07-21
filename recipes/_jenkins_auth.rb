@@ -35,7 +35,7 @@ node.run_state[:github_oauth_client_secret] = node['site-chefcitypo3org']['auth'
 
 include_recipe "t3-chef-vault"
 begin
-  node.run_state[:github_oauth_client_id]     ||= chef_vault_password("github.com", "oauth", "client_id")
+  node.run_state[:github_oauth_client_id] ||= chef_vault_password("github.com", "oauth", "client_id")
 rescue
   Chef::Log.warn "Also could not read oauth client_id from chef-vault"
 end
@@ -45,8 +45,6 @@ begin
 rescue
   Chef::Log.warn "Also could not read oauth client_secret from chef-vault"
 end
-
-
 
 # This configures authentication
 jenkins_script 'auth' do

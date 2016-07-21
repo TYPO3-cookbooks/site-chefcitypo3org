@@ -6,7 +6,7 @@ Set up the SSH known hosts
 
 ssh_known_hosts_entry "github.com"
 ssh_known_hosts_entry "review.typo3.org" do
-  port 29418
+  port 29_418
 end
 
 # Prepare SSH key setup of jenkins user
