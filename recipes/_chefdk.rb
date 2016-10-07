@@ -14,6 +14,7 @@ end
 package "build-essential"
 
 %w(
+  kitchen-docker
   jsonlint
   yaml-lint
   rails-erb-check
