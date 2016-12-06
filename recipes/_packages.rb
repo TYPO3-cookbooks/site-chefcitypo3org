@@ -4,4 +4,4 @@ Installs basic packages on the machine
 #>
 =end
 
-package %w(git vim)
+package %w(git im)

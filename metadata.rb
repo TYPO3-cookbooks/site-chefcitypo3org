@@ -4,7 +4,7 @@ maintainer_email 'adminATtypo3DOTorg'
 license          'Apache 2.0'
 description      'Provisions a Chef CI/CD server based on Jenkins.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.0.7'
+version          '1.0.8'
 
 supports         'debian'
 
@@ -13,7 +13,7 @@ depends          't3-chef-vault', '~> 1.0.0'
 
 # Make sure to freeze all versions of community cookbooks here!
 depends          'java',              '= 1.39.0'
-depends          'jenkins',           '= 2.6.0'
+depends          'jenkins',           '= 3.0.0'
 depends          'ssh_known_hosts',   '= 2.0.0'
 depends          'chef-dk',           '= 3.1.0'
 

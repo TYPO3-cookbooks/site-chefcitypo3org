@@ -10,15 +10,15 @@ chef_dk 'site-chefcitypo3org_chefdk' do
   action :install
 end
 
-
 # required for jsonlint
 package "build-essential"
 
-%w{
-jsonlint
-yaml-lint
-rails-erb-check
-}.each do |gem|
+%w(
+  kitchen-docker
+  jsonlint
+  yaml-lint
+  rails-erb-check
+).each do |gem|
   gem_package gem do
     gem_binary "/opt/chefdk/embedded/bin/gem"
     options "--no-document --no-user-install"
@@ -39,8 +39,8 @@ template "#{node['jenkins']['master']['home']}/.chef/config.rb" do
   group "jenkins"
   source "chef-config.rb.erb"
   variables(
-    :node_name => node['site-chefcitypo3org']['knife_config'].key?('node_name') ? node['site-chefcitypo3org']['knife_config']['node_name'] : "jenkins",
-    :chef_server_url => node['site-chefcitypo3org']['knife_config']['chef_server_url'] || "https://chef.typo3.org",
+    node_name: node['site-chefcitypo3org']['knife_config'].key?('node_name') ? node['site-chefcitypo3org']['knife_config']['node_name'] : "jenkins",
+    chef_server_url: node['site-chefcitypo3org']['knife_config']['chef_server_url'] || "https://chef.typo3.org"
   )
 end
 
@@ -48,8 +48,8 @@ end
 file "#{node['jenkins']['master']['home']}/.chef/client.pem" do
   owner "jenkins"
   group "jenkins"
-  content node['site-chefcitypo3org']['knife_client_key'].gsub(/\|/, "\n") if node['site-chefcitypo3org']['knife_client_key']
-  action :create  if node['site-chefcitypo3org']['knife_client_key']
+  content node['site-chefcitypo3org']['knife_client_key'].tr("|", "\n") if node['site-chefcitypo3org']['knife_client_key']
+  action :create if node['site-chefcitypo3org']['knife_client_key']
   content "Manually replace this with the real client.pem!" unless node['site-chefcitypo3org']['knife_client_key']
   action :create_if_missing unless node['site-chefcitypo3org']['knife_client_key']
 end

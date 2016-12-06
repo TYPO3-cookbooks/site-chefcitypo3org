@@ -6,7 +6,7 @@ control 'jenkins-3' do
   end
 
   xml_parse_options = {
-    assignment_re: /^\s*<([^>]*?)>(.*?)<\/[^>]*>\s*$/,
+    assignment_re: %r{^\s*<([^>]*?)>(.*?)<\/[^>]*>\s*$}
   }
 
   describe parse_config_file('/var/lib/jenkins/config.xml', xml_parse_options) do
@@ -22,6 +22,6 @@ control 'jenkins-3' do
   # login redirects to GitHub OAuth login
   describe command('curl --retry 10 --head http://localhost:8080/securityRealm/commenceLogin') do
     its('exit_status') { should eq 0 }
-    its('stdout') { should include 'Location: https://github.com/login/oauth/authorize'}
+    its('stdout') { should include 'Location: https://github.com/login/oauth/authorize' }
   end
 end
