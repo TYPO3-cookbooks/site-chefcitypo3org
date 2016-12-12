@@ -78,10 +78,31 @@ end
 # Workflow Global Library
 #######################
 
-git "workflow-libs" do
-  destination File.join(node['jenkins']['master']['home'], "workflow-libs")
-  repository "https://github.com/TYPO3-infrastructure/jenkins-pipeline-global-library-chefci"
-  user node['jenkins']['master']['user']
-  group node['jenkins']['master']['group']
-  retries 5
+# clean up old version
+directory File.join(node['jenkins']['master']['home'], "workflow-libs") do
+  action :delete
+  recursive true
+end
+
+jenkins_script 'auth' do
+  command <<-EOH.gsub(/^ {4}/, '')
+    import jenkins.model.Jenkins
+    import org.jenkinsci.plugins.workflow.libs.SCMSourceRetriever;
+    import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration;
+    import jenkins.plugins.git.GitSCMSource;
+
+    SCMSourceRetriever retriever = new SCMSourceRetriever(new GitSCMSource(
+        "global-library-chefci",
+        "https://github.com/TYPO3-infrastructure/jenkins-pipeline-global-library-chefci/",
+        null,
+        "*",
+        "",
+        false))
+    LibraryConfiguration pipeline = new LibraryConfiguration("chefci", retriever)
+    pipeline.setDefaultVersion('master')
+    pipeline.setImplicit(true)
+
+    Jenkins.getInstance().getDescriptor("org.jenkinsci.plugins.workflow.libs.GlobalLibraries").get()
+        .setLibraries([pipeline])
+  EOH
 end
