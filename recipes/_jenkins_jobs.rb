@@ -78,12 +78,6 @@ end
 # Workflow Global Library
 #######################
 
-# clean up old version
-directory File.join(node['jenkins']['master']['home'], "workflow-libs") do
-  action :delete
-  recursive true
-end
-
 jenkins_script 'auth' do
   command <<-EOH.gsub(/^ {4}/, '')
     import jenkins.model.Jenkins
