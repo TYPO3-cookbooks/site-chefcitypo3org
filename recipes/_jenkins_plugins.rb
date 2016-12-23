@@ -12,9 +12,9 @@ Installs Jenkins plugins
 # }
 
 plugins = %w{
-cloudbees-folder:5.13
-workflow-step-api:2.5
-github-api:1.80
+cloudbees-folder:5.15
+workflow-step-api:2.6
+github-api:1.82
 pipeline-graph-analysis:1.3
 greenballs:1.15
 antisamy-markup-formatter:1.5
@@ -23,7 +23,7 @@ workflow-scm-step:2.3
 display-url-api:0.5
 pipeline-rest-api:2.4
 workflow-durable-task-step:2.5
-github:1.24.0
+github:1.25.0
 workflow-job:2.9
 workflow-basic-steps:2.3
 structs:1.5
