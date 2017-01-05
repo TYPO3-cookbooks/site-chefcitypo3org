@@ -17,6 +17,7 @@ ant:1.4
 antisamy-markup-formatter:1.5
 bouncycastle-api:2.16.0
 branch-api:1.11.1
+buildtriggerbadge:2.7
 clone-workspace-scm:0.6
 cloudbees-folder:5.15
 credentials:2.1.10
