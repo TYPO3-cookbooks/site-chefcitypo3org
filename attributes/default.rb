@@ -23,3 +23,10 @@ default['site-chefcitypo3org']['main_repo'] = "ssh://chef-jenkins@review.typo3.o
 
 #<> Install Jenkins LTS
 default['jenkins']['master']['repository'] = "http://pkg.jenkins-ci.org/debian-stable"
+
+#################
+# Parametrization
+# will be moved to a library cookbook later
+#################
+
+default['site-chefcitypo3org']['github_org'] = "TYPO3-cookbooks"
