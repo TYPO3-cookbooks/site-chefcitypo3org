@@ -79,7 +79,7 @@ end
 # Workflow Global Library
 #######################
 
-jenkins_script 'auth' do
+jenkins_script 'global-library-chefci' do
   command <<-EOH.gsub(/^ {4}/, '')
     import jenkins.model.Jenkins
     import org.jenkinsci.plugins.workflow.libs.SCMSourceRetriever;
