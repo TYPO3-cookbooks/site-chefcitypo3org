@@ -37,14 +37,15 @@ end
 #######################
 # Github Organization TYPO3-cookbooks
 #######################
-cookbook_org_job = File.join(Chef::Config[:file_cache_path], "TYPO3-cookbooks.xml")
+cookbook_org_job_name = node['site-chefcitypo3org']['github_org']
+cookbook_org_job = File.join(Chef::Config[:file_cache_path], "github-org-#{cookbook_org_job_name}.xml")
 
 template cookbook_org_job do
   source "jenkins-jobs/github-organization-folder/TYPO3-cookbooks.xml.erb"
-  notifies :create, "jenkins_job[TYPO3-cookbooks]", :immediately
+  notifies :create, "jenkins_job[#{cookbook_org_job_name}]", :immediately
 end
 
-jenkins_job "TYPO3-cookbooks" do
+jenkins_job cookbook_org_job_name do
   action :nothing
   config cookbook_org_job
 end
