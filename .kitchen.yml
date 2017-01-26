@@ -38,7 +38,7 @@ driver:
   name: vagrant
   customize:
     cpus: 4
-    memory: 4096
+    memory: 2048
 
 verifier:
   name: inspec
