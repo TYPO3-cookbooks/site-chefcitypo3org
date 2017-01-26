@@ -10,6 +10,7 @@ supports         'debian'
 
 depends          't3-base', '~> 0.2.0'
 depends          't3-chef-vault', '~> 1.0.0'
+depends          'jenkins-chefci'# , '~> 1.0.0'
 
 # Make sure to freeze all versions of community cookbooks here!
 depends          'java',              '= 1.39.0'

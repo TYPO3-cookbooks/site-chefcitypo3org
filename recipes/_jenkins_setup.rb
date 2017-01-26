@@ -4,13 +4,6 @@ Install and configure Jenkins
 #>
 =end
 
-# Finally, install jenkins
-include_recipe "jenkins::master"
-
-jenkins_command 'safe-restart' do
-  action :nothing
-end
-
 jenkins_command 'reload-configuration' do
   action :nothing
 end
