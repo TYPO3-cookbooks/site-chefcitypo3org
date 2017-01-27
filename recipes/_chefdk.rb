@@ -4,26 +4,6 @@ ChefDK setup
 #>
 =end
 
-chef_dk 'site-chefcitypo3org_chefdk' do
-  version node['site-chefcitypo3org']['chefdk']['version']
-  global_shell_init true
-  action :install
-end
-
-# required for jsonlint
-package "build-essential"
-
-%w(
-  kitchen-docker
-  jsonlint
-  yaml-lint
-  rails-erb-check
-).each do |gem|
-  gem_package gem do
-    gem_binary "/opt/chefdk/embedded/bin/gem"
-    options "--no-document --no-user-install"
-  end
-end
 
 ###########################
 # Chef / Knife
