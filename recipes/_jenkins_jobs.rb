@@ -38,30 +38,20 @@ end
 # Github Organization TYPO3-cookbooks
 #######################
 
-# token of the chefcitypo3org user
-github_chefcitypo3org_user = node['site-chefcitypo3org']['auth']['github_user']
-github_chefcitypo3org_token = node['site-chefcitypo3org']['auth']['github_token']
-
 include_recipe "t3-chef-vault"
+
 begin
-  github_chefcitypo3org_user ||= chef_vault_password("github.com", "chefcitypo3org", "username")
+  node.run_state[:jenkins_chefci_github_login] = chef_vault_password('github.com', 'chefcitypo3org', 'username')
 rescue
-  Chef::Log.warn "Also could not read github username from chef-vault"
+  Chef::Log.warn 'Could not read github username from chef-vault'
 end
 
 begin
-  github_chefcitypo3org_token ||= chef_vault_password("github.com", "chefcitypo3org", "token")
+  node.run_state[:jenkins_chefci_github_token] = chef_vault_password('github.com', 'chefcitypo3org', 'token')
 rescue
-  Chef::Log.warn "Also could not read github token from chef-vault"
+  Chef::Log.warn 'Could not read github token from chef-vault'
 end
 
-if github_chefcitypo3org_token
-  jenkins_password_credentials github_chefcitypo3org_user do
-    id "github-chefcitypo3org-token"
-    password github_chefcitypo3org_token
-    description "Github API token"
-  end
-end
 
 #######################
 # Workflow Global Library
