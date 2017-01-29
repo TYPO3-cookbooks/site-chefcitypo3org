@@ -37,18 +37,6 @@ end
 #######################
 # Github Organization TYPO3-cookbooks
 #######################
-cookbook_org_job_name = node['site-chefcitypo3org']['github_org']
-cookbook_org_job = File.join(Chef::Config[:file_cache_path], "github-org-#{cookbook_org_job_name}.xml")
-
-template cookbook_org_job do
-  source "jenkins-jobs/github-organization-folder/TYPO3-cookbooks.xml.erb"
-  notifies :create, "jenkins_job[#{cookbook_org_job_name}]", :immediately
-end
-
-jenkins_job cookbook_org_job_name do
-  action :nothing
-  config cookbook_org_job
-end
 
 # token of the chefcitypo3org user
 github_chefcitypo3org_user = node['site-chefcitypo3org']['auth']['github_user']

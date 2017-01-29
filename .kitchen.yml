@@ -54,9 +54,10 @@ suites:
     run_list:
       - recipe[site-chefcitypo3org::default]
     attributes:
+      jenkins_chefci:
+        github_organization: TYPO3-cookbooks-test
       site-chefcitypo3org:
         main_repo: ssh://<%= ENV['JENKINS_T3O_USER'] %>@review.typo3.org:29418/Teams/Server/Chef.git
-        github_org: TYPO3-cookbooks-test
         auth:
           github_client_id: <%= ENV['JENKINS_GITHUB_CLIENT_ID'] %>
           github_client_secret: <%= ENV['JENKINS_GITHUB_CLIENT_SECRET'] %>
