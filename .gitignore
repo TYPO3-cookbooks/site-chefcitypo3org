@@ -15,3 +15,6 @@ bin/*
 .kitchen.local.yml
 test/integration/data_bags/certificates/wildcard_typo3_org.json
 .idea/
+
+# thor-scmversion
+VERSION
