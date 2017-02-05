@@ -57,17 +57,17 @@ suites:
       jenkins_chefci:
         github_organization: TYPO3-cookbooks-test
         github_credentials:
-          login: <%= ENV['JENKINS_GITHUB_USER'] %>
+          login: <%= ENV['JENKINS_GITHUB_LOGIN'] %>
           token: <%= ENV['JENKINS_GITHUB_TOKEN'] %>
+<% if use_your_chef_credentials and is_configured? %>
+        knife_config: <%= client_config.to_json %>
+        knife_client_key: '<%= client_key_contents_escaped %>'
+<% end %>
       site-chefcitypo3org:
         main_repo: ssh://<%= ENV['JENKINS_T3O_USER'] %>@review.typo3.org:29418/Teams/Server/Chef.git
         auth:
           github_client_id: <%= ENV['JENKINS_GITHUB_CLIENT_ID'] %>
           github_client_secret: <%= ENV['JENKINS_GITHUB_CLIENT_SECRET'] %>
-<% if use_your_chef_credentials and is_configured? %>
-        knife_config: <%= client_config.to_json %>
-        knife_client_key: '<%= client_key_contents_escaped %>'
-<% end %>
     driver_config:
       network:
       - ["private_network", {ip: "192.168.88.23"}]
