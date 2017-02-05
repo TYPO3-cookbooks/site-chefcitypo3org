@@ -1,8 +1,6 @@
 # <%
 
-use_your_chef_credentials = true
-
-if use_your_chef_credentials
+if ENV['JENKINS_COPY_CHEF_CREDENTIALS']
 
   require 'chef/knife'
   k = Chef::Knife.new
@@ -28,9 +26,11 @@ if use_your_chef_credentials
     File.read(Chef::Config[:client_key]).gsub(/\n/, "|")
   end
 
+elsif ENV['CI']
+  # nothing...
+else
+  STDERR.puts "To interact with your Chef Server, please set JENKINS_COPY_CHEF_CREDENTIALS=1"
 end
-
-STDERR.puts "Optionally: Export JENKINS_T3O_USER to specify your typo3.org username" unless ENV['JENKINS_T3O_USER']
 
 %>
 ---
@@ -59,7 +59,7 @@ suites:
         github_credentials:
           login: <%= ENV['JENKINS_GITHUB_LOGIN'] %>
           token: <%= ENV['JENKINS_GITHUB_TOKEN'] %>
-<% if use_your_chef_credentials and is_configured? %>
+<% if ENV['JENKINS_COPY_CHEF_CREDENTIALS'] and is_configured? %>
         knife_config: <%= client_config.to_json %>
         knife_client_key: '<%= client_key_contents_escaped %>'
 <% end %>
