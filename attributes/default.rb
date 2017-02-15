@@ -1,11 +1,4 @@
 #################
-# Versions
-#################
-
-#<> Configures the version of Chef to use for test-kitchen runs
-default['site-chefcitypo3org']['kitchen']['chef_version'] = "12.5.1"
-
-#################
 # URLs
 #################
 
