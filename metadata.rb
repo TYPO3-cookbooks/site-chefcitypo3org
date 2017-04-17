@@ -7,6 +7,9 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          IO.read(File.join(File.dirname(__FILE__), 'VERSION')) rescue '0.0.1'
 
 supports         'debian'
+chef_version     '>= 12.0.0'
+source_url       'https://github.com/typo3-cookbooks/site-chefcitypo3org'
+issues_url       'https://github.com/typo3-cookbooks/site-chefcitypo3org/issues'
 
 depends          't3-base', '~> 0.2.0'
 depends          't3-chef-vault', '~> 1.0.0'
