@@ -27,6 +27,7 @@ end
 # see https://github.com/jenkinsci/job-dsl-plugin/wiki/Script-Security
 jenkins_script 'jobdsl-script-security' do
   command <<-EOH.gsub(/^ {2}/, '')
+  import jenkins.model.Jenkins
   import javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration
 
   Jenkins.getInstance().getDescriptorByType(GlobalJobDslSecurityConfiguration.class).useScriptSecurity = false
