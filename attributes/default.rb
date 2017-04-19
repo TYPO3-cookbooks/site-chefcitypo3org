@@ -18,6 +18,11 @@ default['jenkins']['master']['repository'] = "http://pkg.jenkins-ci.org/debian-s
 default['jenkins_chefci']['github_organization'] = 'TYPO3-cookbooks'
 
 #################
+# Jenkins Config
+#################
+default['jenkins']['master']['jvm_options'] = '-Djenkins.install.runSetupWizard=false -XX:MaxPermSize=256m'
+
+#################
 # Jenkins Plugins
 #################
 
