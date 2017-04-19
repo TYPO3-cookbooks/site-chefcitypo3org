@@ -1,9 +1,25 @@
-control 'jenkins-3' do
-  title 'Jenkins GitHub OAuth'
-  desc 'Check that Jenkins has authentication configured'
+control 'jenkins-1' do
+  title 'Jenkins Setup'
+  desc 'Check that jenkins is installed and listening to ports'
   describe package('jenkins') do
     it { should be_installed }
   end
+
+  #describe service('jenkins') do
+  #  it { should be_installed }
+  #  it { should be_running }
+  #end
+
+  describe port(8080) do
+    it { should be_listening }
+    its('protocols') { should include 'tcp6' }
+    # its('processes') { should include 'java' }
+  end
+end
+
+control 'jenkins-2' do
+  title 'Jenkins No-Auth'
+  desc 'Check that Jenkins has no auth configured'
 
   xml_parse_options = {
     assignment_re: %r{^\s*<([^>]*?)>(.*?)<\/[^>]*>\s*$}
@@ -11,17 +27,5 @@ control 'jenkins-3' do
 
   describe parse_config_file('/var/lib/jenkins/config.xml', xml_parse_options) do
     its('useSecurity') { should eq 'true' }
-  end
-
-  # verify that security is correctly applied
-  describe command('curl --retry 10 --head http://localhost:8080/manage') do
-    its('exit_status') { should eq 0 }
-    its('stdout') { should include '403 Forbidden' }
-  end
-
-  # login redirects to GitHub OAuth login
-  describe command('curl --retry 10 --head http://localhost:8080/securityRealm/commenceLogin') do
-    its('exit_status') { should eq 0 }
-    its('stdout') { should include 'Location: https://github.com/login/oauth/authorize' }
   end
 end
