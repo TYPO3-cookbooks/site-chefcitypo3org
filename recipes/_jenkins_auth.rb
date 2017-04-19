@@ -69,3 +69,56 @@ jenkins_script 'auth' do
     }
   EOH
 end
+
+
+##################################
+# Jenkins Job DSL Script Security
+##################################
+# This disables script security for the JobDSL plugin.
+# Matters only, if authentication is configured in Jenkins.
+# see https://github.com/jenkinsci/job-dsl-plugin/wiki/Script-Security
+
+# no clue, why the jenkins script works in the script console, but not via Chef
+# jenkins_script 'jobdsl-script-security' do
+#   command <<-EOH.gsub(/^ {2}/, '')
+#   import jenkins.model.Jenkins
+#   import javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration
+#
+#   Jenkins.getInstance().getDescriptorByType(GlobalJobDslSecurityConfiguration.class).useScriptSecurity = false
+#   Jenkins.getInstance().save()
+#
+#   EOH
+# end
+
+# thus drop the resulting XML config
+cookbook_file "#{node['jenkins']['master']['home']}/javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration.xml" do
+  owner 'jenkins'
+  group 'jenkins'
+  mode 0644
+  notifies :execute, 'jenkins_command[reload-configuration]'
+end
+
+# more secure: run as the user who triggered the build (using the authorize-project plugin)
+# see https://github.com/jenkinsci/job-dsl-plugin/wiki/Script-Security
+# somehow, this prevents other pipeline jobs to run
+# jenkins_script 'jobdsl-auth' do
+#   command <<-EOH.gsub(/^ {4}/, '')
+#     import jenkins.security.*
+#     import hudson.util.DescribableList
+#     import org.jenkinsci.plugins.authorizeproject.*
+#     import org.jenkinsci.plugins.authorizeproject.strategy.*
+#
+#     DescribableList<QueueItemAuthenticator, QueueItemAuthenticatorDescriptor> authenticators =
+#       QueueItemAuthenticatorConfiguration.get().getAuthenticators();
+#
+#
+#     if (authenticators.isEmpty()) {
+#       println "Adding TriggeringUsersAuthorizationStrategy"
+#       GlobalQueueItemAuthenticator triggerUserAuthenticator = new GlobalQueueItemAuthenticator(new TriggeringUsersAuthorizationStrategy())
+#
+#       authenticators.add(triggerUserAuthenticator)
+#     } else {
+#       println "AuthenticationStrategy already set"
+#     }
+#   EOH
+# end
