@@ -1,10 +1,18 @@
 driver:
-  name: docker
-  use_sudo: false
-  run_command: /bin/systemd
-  cap_add:
-    - SYS_ADMIN
-  volume:
-    - /sys/fs/cgroup
-  provision_command:
-    - apt-get install -y net-tools cron
+  name: dokken
+  privileged: true # because Docker and SystemD/Upstart
+  intermediate_instructions:
+    - RUN /usr/bin/apt-get update
+    - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+
+platforms:
+- name: debian-8
+  driver:
+    image: debian:8
+    pid_one_command: /bin/systemd
