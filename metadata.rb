@@ -16,8 +16,8 @@ depends          't3-chef-vault', '~> 1.0.0'
 depends          'jenkins-chefci'# , '~> 1.0.0'
 
 # Make sure to freeze all versions of community cookbooks here!
-depends          'java',              '= 1.46.0'
-depends          'jenkins',           '= 4.2.1'
+depends          'java',              '= 1.50.0'
+depends          'jenkins',           '= 5.0.2'
 depends          'ssh_known_hosts',   '= 2.0.0'
 depends          'chef-dk',           '= 3.1.0'
 
