@@ -41,14 +41,12 @@ default['java']['oracle']['accept_oracle_download_terms'] = true
 #
 default['jenkins_chefci']['jenkins_plugins'] = %w(
   ace-editor:1.1
-  allure-jenkins-plugin:2.18
   analysis-collector:1.51
   analysis-core:1.87
   ansicolor:0.5.0
   ant:1.5
   antisamy-markup-formatter:1.5
   authentication-tokens:1.3
-  autocomplete-parameter:1.0
   blueocean:1.1.1
   blueocean-autofavorite:1.0.0
   blueocean-commons:1.1.1
@@ -131,7 +129,6 @@ default['jenkins_chefci']['jenkins_plugins'] = %w(
   structs:1.8
   token-macro:2.1
   variant:1.1
-  view26:1.0.4
   warnings:4.62
   windows-slaves:1.3.1
   workflow-aggregator:2.5
