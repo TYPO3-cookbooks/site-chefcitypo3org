@@ -16,24 +16,25 @@ transport:
 provisioner:
   name: dokken
   # chef_log_level: debug
+  chef_version: 12.20.3
 
 platforms:
-#- name: debian-9
-#  driver:
-#    image: debian:9
-#    pid_one_command: /bin/systemd
-#    intermediate_instructions:
-#      - RUN /usr/bin/apt-get update
-#      - RUN /usr/bin/apt-get install systemd -y
-#      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
-
-- name: debian-8
+- name: debian-9
   driver:
-    image: debian:8
+    image: debian:9
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
+      - RUN /usr/bin/apt-get install systemd -y
+      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools gnupg -y
+
+#- name: debian-8
+#  driver:
+#    image: debian:8
+#    pid_one_command: /bin/systemd
+#    intermediate_instructions:
+#      - RUN /usr/bin/apt-get update
+#      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
 
 # comment this out, if Debian 7 is not needed
 #- name: debian-7

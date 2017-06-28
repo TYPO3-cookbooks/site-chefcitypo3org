@@ -26,8 +26,8 @@ default['jenkins']['master']['jvm_options'] = '-Djenkins.install.runSetupWizard=
 # Java
 #################
 
-#<> Okay, Oracle, we hate you
-default['java']['oracle']['accept_oracle_download_terms'] = true
+#<> Our platforms now support Java 8
+default['java']['install_flavor'] = 'openjdk'
 
 #################
 # Jenkins Plugins
