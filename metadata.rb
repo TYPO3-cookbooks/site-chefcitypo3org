@@ -13,7 +13,7 @@ issues_url       'https://github.com/typo3-cookbooks/site-chefcitypo3org/issues'
 
 depends          't3-base', '~> 0.2.0'
 depends          't3-chef-vault', '~> 1.0.0'
-depends          'jenkins-chefci' , '~> 0.1.0'
+depends          'jenkins-chefci', '~> 0.2.0'
 
 # Make sure to freeze all versions of community cookbooks here!
 depends          'java',              '= 1.50.0'
