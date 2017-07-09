@@ -15,7 +15,7 @@ transport:
 
 provisioner:
   name: dokken
-  # chef_log_level: debug
+  chef_log_level: debug
 
 platforms:
 #- name: debian-9
