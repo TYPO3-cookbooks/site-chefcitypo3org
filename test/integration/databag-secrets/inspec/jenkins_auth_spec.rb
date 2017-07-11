@@ -1,9 +1,6 @@
 control 'jenkins-3' do
   title 'Jenkins GitHub OAuth'
   desc 'Check that Jenkins has authentication configured'
-  describe package('jenkins') do
-    it { should be_installed }
-  end
 
   xml_parse_options = {
     assignment_re: %r{^\s*<([^>]*?)>(.*?)<\/[^>]*>\s*$}

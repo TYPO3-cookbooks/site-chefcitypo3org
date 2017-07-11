@@ -1,9 +1,10 @@
 control 'jenkins-1' do
   title 'Jenkins Setup'
   desc 'Check that jenkins is installed and listening to ports'
-  describe package('jenkins') do
-    it { should be_installed }
-  end
+
+  # describe package('jenkins') do
+  #   it { should be_installed }
+  # end
 
   #describe service('jenkins') do
   #  it { should be_installed }
