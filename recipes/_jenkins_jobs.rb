@@ -7,7 +7,7 @@ Defines the Jenkins jobs
 #######################
 # JobDSL Seed
 #######################
-chef_repo_jobdsl_job = File.join(Chef::Config[:file_cache_path], "chef_repo_seed.xml")
+chef_repo_jobdsl_job = File.join(node['jenkins']['master']['home'], "chef_repo_seed.xml")
 
 template chef_repo_jobdsl_job do
   source "jenkins-jobs/jobdsl/chef_repo.xml.erb"
