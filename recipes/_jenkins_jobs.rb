@@ -20,12 +20,18 @@ jenkins_job "chef-repo-seed" do
   config chef_repo_jobdsl_job
 end
 
+directory "#{node['jenkins']['master']['home']}/workspace/" do
+  action :create
+  owner     node['jenkins']['master']['user']
+  group     node['jenkins']['master']['group']
+  mode      '0755'
+end
+
 directory "#{node['jenkins']['master']['home']}/workspace/chef-repo-seed/" do
   action :create
   owner     node['jenkins']['master']['user']
   group     node['jenkins']['master']['group']
   mode      '0755'
-  recursive true
 end
 
 template "#{node['jenkins']['master']['home']}/workspace/chef-repo-seed/chef_repo.groovy" do
