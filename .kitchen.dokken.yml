@@ -25,7 +25,7 @@ platforms:
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
       - RUN /usr/bin/apt-get install systemd -y
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
+      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools gnupg -y
 
 # suites are taken from .kitchen.yml usually
 # suites:
