@@ -26,6 +26,8 @@ platforms:
       - RUN /usr/bin/apt-get update
       - RUN /usr/bin/apt-get install systemd -y
       - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools gnupg -y
+  run_list:
+  - recipe[fix-ipv6-kitchen-dokken::default]
 
 # suites are taken from .kitchen.yml usually
 # suites:
