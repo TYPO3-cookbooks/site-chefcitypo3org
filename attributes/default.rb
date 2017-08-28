@@ -43,37 +43,39 @@ default['jenkins_chefci']['jenkins_plugins'] = %w(
   ace-editor:1.1
   analysis-collector:1.52
   analysis-core:1.92
-  ansicolor:0.5.0
-  ant:1.5
+  ansicolor:0.5.2
+  ant:1.7
   antisamy-markup-formatter:1.5
   authentication-tokens:1.3
   aws-credentials:1.21
   aws-java-sdk:1.11.119
-  blueocean:1.1.6
+  blueocean:1.2.0
   blueocean-autofavorite:1.0.0
-  blueocean-commons:1.1.6
-  blueocean-config:1.1.6
-  blueocean-dashboard:1.1.6
+  blueocean-bitbucket-pipeline:1.2.0
+  blueocean-commons:1.2.0
+  blueocean-config:1.2.0
+  blueocean-dashboard:1.2.0
   blueocean-display-url:2.1.0
-  blueocean-events:1.1.6
-  blueocean-git-pipeline:1.1.6
-  blueocean-github-pipeline:1.1.6
-  blueocean-i18n:1.1.6
-  blueocean-jwt:1.1.6
-  blueocean-personalization:1.1.6
-  blueocean-pipeline-api-impl:1.1.6
-  blueocean-pipeline-editor:0.2.0
-  blueocean-pipeline-scm-api:1.1.6
-  blueocean-rest:1.1.6
-  blueocean-rest-impl:1.1.6
-  blueocean-web:1.1.6
+  blueocean-events:1.2.0
+  blueocean-git-pipeline:1.2.0
+  blueocean-github-pipeline:1.2.0
+  blueocean-i18n:1.2.0
+  blueocean-jwt:1.2.0
+  blueocean-personalization:1.2.0
+  blueocean-pipeline-api-impl:1.2.0
+  blueocean-pipeline-editor:1.2.0
+  blueocean-pipeline-scm-api:1.2.0
+  blueocean-rest:1.2.0
+  blueocean-rest-impl:1.2.0
+  blueocean-web:1.2.0
   bouncycastle-api:2.16.2
   branch-api:2.0.11
   buildtriggerbadge:2.8.1
   clone-workspace-scm:0.6
+  cloudbees-bitbucket-branch-source:2.2.3
   cloudbees-folder:6.1.2
   credentials:2.1.14
-  credentials-binding:1.12
+  credentials-binding:1.13
   display-url-api:2.0
   docker-commons:1.8
   docker-workflow:1.12
@@ -82,7 +84,7 @@ default['jenkins_chefci']['jenkins_plugins'] = %w(
   embeddable-build-status:1.9
   external-monitor-job:1.7
   favorite:2.3.0
-  gerrit-trigger:2.24.0
+  gerrit-trigger:2.25.0
   git:3.5.1
   git-client:2.5.0
   git-server:1.7
@@ -93,9 +95,11 @@ default['jenkins_chefci']['jenkins_plugins'] = %w(
   github-organization-folder:1.6
   greenballs:1.15
   handlebars:1.1.1
+  htmlpublisher:1.14
   icon-shim:2.0.3
   jackson2-api:2.7.3
   javadoc:1.4
+  jira:2.4.2
   job-dsl:1.64
   jquery-detached:1.2.1
   junit:1.21
@@ -104,13 +108,14 @@ default['jenkins_chefci']['jenkins_plugins'] = %w(
   matrix-auth:1.7
   matrix-project:1.11
   maven-plugin:2.17
+  mercurial:2.1
   metrics:3.1.2.10
   momentjs:1.1.1
   node-iterator-api:1.5.0
   pam-auth:1.3
   pipeline-build-step:2.5.1
   pipeline-github-lib:1.0
-  pipeline-graph-analysis:1.4
+  pipeline-graph-analysis:1.5
   pipeline-input-step:2.8
   pipeline-milestone-step:1.3.1
   pipeline-model-api:1.1.9
@@ -125,13 +130,13 @@ default['jenkins_chefci']['jenkins_plugins'] = %w(
   plain-credentials:1.4
   PrioritySorter:3.5.1
   pubsub-light:1.12
-  scm-api:2.2.0
-  script-security:1.31
+  scm-api:2.2.1
+  script-security:1.33
   slack:2.2
   sse-gateway:1.15
   ssh-credentials:1.13
   structs:1.10
-  token-macro:2.1
+  token-macro:2.2
   variant:1.1
   warnings:4.63
   windows-slaves:1.3.1
@@ -140,7 +145,7 @@ default['jenkins_chefci']['jenkins_plugins'] = %w(
   workflow-basic-steps:2.6
   workflow-cps:2.39
   workflow-cps-global-lib:2.8
-  workflow-durable-task-step:2.13
+  workflow-durable-task-step:2.14
   workflow-job:2.12.2
   workflow-multibranch:2.16
   workflow-scm-step:2.6
