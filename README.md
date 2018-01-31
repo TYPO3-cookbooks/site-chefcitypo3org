@@ -25,29 +25,33 @@ This project contains the Chef setup for a Jenkins-based CI/CD server for Chef c
 ## Cookbooks:
 
 * t3-base (~> 0.2.0)
-* java (= 1.39.0)
-* jenkins (= 2.5.0)
+* t3-chef-vault (~> 1.0.0)
+* jenkins-chefci (~> 0.2.0)
+* java (= 1.50.0)
+* jenkins (= 5.0.2)
 * ssh_known_hosts (= 2.0.0)
 * chef-dk (= 3.1.0)
 * sudo
 * apt
 * git
+* #<Logger:0x00007fb7bfb4a298> () (Recommended but not required)
+* #<Logger:0x00007fb7bfb4a298> () (Suggested but not required)
+* Conflicts with #<Logger:0x00007fb7bfb4a298> ()
 
 # Attributes
 
-* `node['site-chefcitypo3org']['chefdk']['version']` - Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk. Defaults to `0.12.0-1`.
-* `node['site-chefcitypo3org']['kitchen']['chef_version']` - Configures the version of Chef to use for test-kitchen runs. Defaults to `12.5.1`.
 * `node['site-chefcitypo3org']['url']` - Public URL of the Jenkins master. Defaults to `https://chef-ci.typo3.org`.
 * `node['site-chefcitypo3org']['main_repo']` - URL of the main chef repo. Defaults to `ssh://chef-jenkins@review.typo3.org:29418/Teams/Server/Chef.git`.
+* `node['jenkins_chefci']['knife_config']['chef_server_url']` - URL of the CHef Server. Defaults to `https://chef.typo3.org`.
 * `node['jenkins']['master']['repository']` - Install Jenkins LTS. Defaults to `http://pkg.jenkins-ci.org/debian-stable`.
-* `node['java']['jdk_version']` - Sets the required Java version. Defaults to `7`.
-* `node['java']['install_flavor']` - Sets the Java installation distribution. Defaults to `openjdk`.
-* `node['site-chefcitypo3org']['knife_config']` - The knife/chef configuration for communicating with the Chef API. Defaults to `{ ... }`.
-* `node['site-chefcitypo3org']['knife_client_key']` - Optionally (for local testing), the contents of a chef admin's key (\n replaced with |). Defaults to `nil`.
+* `node['jenkins_chefci']['github_organization']` - Use this Github organization to read cookbooks from. Defaults to `TYPO3-cookbooks`.
+* `node['jenkins']['master']['jvm_options']` -  Defaults to `-Djenkins.install.runSetupWizard=false -XX:MaxPermSize=256m`.
+* `node['java']['oracle']['accept_oracle_download_terms']` - Okay, Oracle, we hate you. Defaults to `true`.
+* `node['jenkins_chefci']['jenkins_plugins']` -  Defaults to `%w(`.
 * `node['site-chefcitypo3org']['auth']['github_client_id']` - Github OAuth client ID. Defaults to `nil`.
 * `node['site-chefcitypo3org']['auth']['github_client_secret']` - Github OAuth client secret. Defaults to `nil`.
-* `node['site-chefcitypo3org']['auth']['github_user']` - Github Username. Defaults to `chefcitypo3org`.
-* `node['site-chefcitypo3org']['auth']['github_token']` - Github Token. Defaults to `nil`.
+* `node['jenkins_chefci']['chefdk_version']` - Configures the ChefDK version to be installed - see https://github.com/chef/chef-dk. Defaults to `1.0.3-1`.
+* `node['jenkins_chefci']['kitchen']['chef_version']` - Configures the version of Chef to use for test-kitchen runs. Defaults to `12.21.3`.
 
 # Recipes
 
@@ -56,6 +60,16 @@ This project contains the Chef setup for a Jenkins-based CI/CD server for Chef c
 ## site-chefcitypo3org::default
 
 Wires together all the pieces
+
+Application Data
+----------------
+
+Application data resides in `/var/lib/jenkins`.
+
+Section [Manual Steps](#manual-steps) describes setup of keys.
+
+To migrate job history, copy over `/var/lib/jenkins/jobs/` to the new server.
+
 
 Build Status
 ------------
@@ -66,14 +80,25 @@ Build status on our [CI server](https://chef-ci.typo3.org):
 - *develop* (next release): [![Build Status develop branch](https://chef-ci.typo3.org/job/TYPO3-cookbooks/job/site-chefcitypo3org/branch/develop/badge/icon)](https://chef-ci.typo3.org/job/TYPO3-cookbooks/job/site-chefcitypo3org/branch/develop/)
 
 
+knife vault create passwords-production githubcom-oauth -S "recipe:site-chefcitypo3org" -J test/integration/databag-secrets/data_bags/REAL_DO_NOT_COMMIT_passwords-_default/githubcom-oauth.json
+knife vault create passwords-production githubcom-chefcitypo3org -S "recipe:site-chefcitypo3org" -J test/integration/databag-secrets/data_bags/REAL_DO_NOT_COMMIT_passwords-_default/githubcom-chefcitypo3org.json
+
+
 Manual Steps
 ------------
 
 After chef provisioning, some manual steps have to be excecuted, in order to finalize the setup of the Chef CI.
 
-### Plugin Updates
+### Slack Setup
 
-Update all Plugins, i.e., a newer version of the Github and Pipeline plugins are required.
+- build fails first with `NullPointerException` --> save config once to have a working Jenkins (for testing)
+- Configure the API token for both (?) config sections:
+  * _Slack Webhook Settings_:
+    - _Outgoing Webhook Token_: _fill in_
+    - _Outgoing Webhook URL Endpoint_: `slackwebhook`
+  * _Global Slack Notifier Settings_:
+    - _Team Subdomain_: `typo3`
+    - _Integration Token_: _fill in_
 
 ### Gerrit Credentials and Trigger
 
@@ -83,22 +108,22 @@ Replace the contents of `/var/lib/jenkins/.ssh/id_rsa` with the RSA private key.
 * In order to trigger Jenkins, once a change is pushed, set up the _Gerrit Trigger_:
   - Go to _Manage Jenkins_ and _Gerrit Trigger_.
   - Add `review.typo3.org` as a new server.
+    * _Name_: `review.typo3.org`
+    * _Hostname_: `review.typo3.org`
+    * _Frontend URL_: `https://review.typo3.org/`
+    * _Username_: `chef-jenkins`
+    * _E-mail_: `admin@typo3.org`
+    * _SSH Keyfile_: `/var/lib/jenkins/.ssh/id_rsa`
+  - After saving, click the red _Status_ icon to establish the connection
 
 ### Chef User Credentials
 
 In order to let Jenkins communicate with the Chef server API, a valid admin key has to be set up.
 
-Place this private key into `/var/lib/jenkins/.chef/client.pem` (and validate the setup using `knife status` as `jenkins` user).
+Replace the contents of `/var/lib/jenkins/.chef/client.pem` with the private key (and validate the setup using `knife status` as `jenkins` user).
 
 **Note:** When testing this cookbook within test-kitchen, the `.kitchen.yml` automatically tries to copy the user's private key into the VM.
 
-### Github.com Credentials
-
-* Go to _Manage Jenkins_ and _Configure System_.
-* In the _GitHub_ section, add a new _GitHub Server_.
-* Use the _Add_ button to add the credentials for the _chefcitypo3org_ user and convert it to a token
-* Activate _Manage hooks_
-* Under _Advanced_, hooks can be updated using the _Re-register hooks for all jobs_ - but only for jobs that already ran.
 
 
 Testing (isolated from TYPO3)
@@ -124,5 +149,9 @@ TODOs
 # License and Maintainer
 
 Maintainer:: TYPO3 Server Admin Team (<adminATtypo3DOTorg>)
+
+Source:: https://github.com/typo3-cookbooks/site-chefcitypo3org
+
+Issues:: https://github.com/typo3-cookbooks/site-chefcitypo3org/issues
 
 License:: Apache 2.0
