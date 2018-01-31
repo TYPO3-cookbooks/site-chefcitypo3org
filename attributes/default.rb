@@ -37,7 +37,7 @@ default['java']['oracle']['accept_oracle_download_terms'] = true
 # Plugins:
 # Retrieve this list via Jenkins Script console:
 #
-# Jenkins.instance.pluginManager.plugins.sort().each{ plugin -> println ("  ${plugin.getShortName()}:${plugin.getVersion()}") }
+# Jenkins.instance.pluginManager.plugins.stream().sorted().each{ plugin -> println ("  ${plugin.getShortName()}:${plugin.getVersion()}") }
 #
 default['jenkins_chefci']['jenkins_plugins'] = %w(
   ace-editor:1.1
