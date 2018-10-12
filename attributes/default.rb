@@ -49,114 +49,115 @@ default['jenkins_chefci']['jenkins_plugins'] = %w(
   apache-httpcomponents-client-4-api:4.5.5-3.0
   authentication-tokens:1.3
   aws-credentials:1.23
-  aws-java-sdk:1.11.341
-  blueocean:1.6.2
+  aws-java-sdk:1.11.403
+  blueocean:1.9.0
   blueocean-autofavorite:1.2.2
-  blueocean-bitbucket-pipeline:1.6.2
-  blueocean-commons:1.6.2
-  blueocean-config:1.6.2
-  blueocean-core-js:1.6.2
-  blueocean-dashboard:1.6.2
+  blueocean-bitbucket-pipeline:1.9.0
+  blueocean-commons:1.9.0
+  blueocean-config:1.9.0
+  blueocean-core-js:1.9.0
+  blueocean-dashboard:1.9.0
   blueocean-display-url:2.2.0
-  blueocean-events:1.6.2
-  blueocean-git-pipeline:1.6.2
-  blueocean-github-pipeline:1.6.2
-  blueocean-i18n:1.6.2
-  blueocean-jira:1.6.2
-  blueocean-jwt:1.6.2
-  blueocean-personalization:1.6.2
-  blueocean-pipeline-api-impl:1.6.2
-  blueocean-pipeline-editor:1.6.2
-  blueocean-pipeline-scm-api:1.6.2
-  blueocean-rest:1.6.2
-  blueocean-rest-impl:1.6.2
-  blueocean-web:1.6.2
-  bouncycastle-api:2.16.3
+  blueocean-events:1.9.0
+  blueocean-git-pipeline:1.9.0
+  blueocean-github-pipeline:1.9.0
+  blueocean-i18n:1.9.0
+  blueocean-jira:1.9.0
+  blueocean-jwt:1.9.0
+  blueocean-personalization:1.9.0
+  blueocean-pipeline-api-impl:1.9.0
+  blueocean-pipeline-editor:1.9.0
+  blueocean-pipeline-scm-api:1.9.0
+  blueocean-rest:1.9.0
+  blueocean-rest-impl:1.9.0
+  blueocean-web:1.9.0
+  bouncycastle-api:2.17
   branch-api:2.0.20
   buildtriggerbadge:2.9
   clone-workspace-scm:0.6
   cloudbees-bitbucket-branch-source:2.2.12
-  cloudbees-folder:6.5.1
+  cloudbees-folder:6.6
   command-launcher:1.2
-  credentials:2.1.17
+  credentials:2.1.18
   credentials-binding:1.16
   display-url-api:2.2.0
   docker-commons:1.13
   docker-workflow:1.17
-  durable-task:1.22
-  ec2:1.39
+  durable-task:1.26
+  ec2:1.40.1
   embeddable-build-status:1.9
   external-monitor-job:1.7
   favorite:2.3.2
-  gerrit-trigger:2.27.5
+  gerrit-trigger:2.27.7
   git:3.9.1
-  git-client:2.7.2
+  git-client:2.7.3
   git-server:1.7
-  github:1.29.2
+  github:1.29.3
   github-api:1.92
-  github-branch-source:2.3.6
+  github-branch-source:2.4.0
   github-oauth:0.29
   github-organization-folder:1.6
   greenballs:1.15
   handlebars:1.1.1
   handy-uri-templates-2-api:2.1.6-1.0
-  htmlpublisher:1.16
+  htmlpublisher:1.17
   icon-shim:2.0.3
   jackson2-api:2.8.11.3
   javadoc:1.4
   jdk-tool:1.1
-  jenkins-design-language:1.6.2
-  jira:3.0.0
+  jenkins-design-language:1.9.0
+  jira:3.0.2
   job-dsl:1.70
   jquery-detached:1.2.1
   jsch:0.1.54.2
-  junit:1.24
+  junit:1.26.1
   ldap:1.20
+  lockable-resources:2.3
   mailer:1.21
-  matrix-auth:2.2
+  matrix-auth:2.3
   matrix-project:1.13
   maven-plugin:3.1.2
   mercurial:2.4
   metrics:4.0.2.2
   momentjs:1.1.1
   node-iterator-api:1.5.0
-  pam-auth:1.3
+  pam-auth:1.4
   pipeline-build-step:2.7
   pipeline-github-lib:1.0
   pipeline-graph-analysis:1.7
   pipeline-input-step:2.8
   pipeline-milestone-step:1.3.1
-  pipeline-model-api:1.3.1
+  pipeline-model-api:1.3.2
   pipeline-model-declarative-agent:1.1.1
-  pipeline-model-definition:1.3.1
-  pipeline-model-extensions:1.3.1
+  pipeline-model-definition:1.3.2
+  pipeline-model-extensions:1.3.2
   pipeline-rest-api:2.10
   pipeline-stage-step:2.3
-  pipeline-stage-tags-metadata:1.3.1
+  pipeline-stage-tags-metadata:1.3.2
   pipeline-stage-view:2.10
   piwikanalytics:1.2.0
   plain-credentials:1.4
   PrioritySorter:3.6.0
   pubsub-light:1.12
-  scm-api:2.2.7
-  script-security:1.44
+  scm-api:2.2.8
+  script-security:1.46
   slack:2.3
-  sse-gateway:1.15
+  sse-gateway:1.16
   ssh-credentials:1.14
-  structs:1.14
+  structs:1.17
   token-macro:2.5
   variant:1.1
   warnings:4.68
   windows-slaves:1.3.1
-  workflow-aggregator:2.5
-  workflow-api:2.28
-  workflow-basic-steps:2.9
-  workflow-cps:2.54
-  workflow-cps-global-lib:2.9
-  workflow-durable-task-step:2.19
-  workflow-job:2.22
+  workflow-aggregator:2.6
+  workflow-api:2.30
+  workflow-basic-steps:2.11
+  workflow-cps:2.58
+  workflow-cps-global-lib:2.12
+  workflow-durable-task-step:2.22
+  workflow-job:2.26
   workflow-multibranch:2.20
-  workflow-scm-step:2.6
+  workflow-scm-step:2.7
   workflow-step-api:2.16
-  workflow-support:2.19
+  workflow-support:2.21
 )
