@@ -21,11 +21,7 @@ control 'jenkins-2' do
   title 'Jenkins No-Auth'
   desc 'Check that Jenkins has no auth configured'
 
-  xml_parse_options = {
-    assignment_re: %r{^\s*<([^>]*?)>(.*?)<\/[^>]*>\s*$}
-  }
-
-  describe parse_config_file('/var/lib/jenkins/config.xml', xml_parse_options) do
-    its('useSecurity') { should eq 'true' }
+  describe xml('/var/lib/jenkins/config.xml') do
+    its('hudson/useSecurity') { should eq ['true'] }
   end
 end
