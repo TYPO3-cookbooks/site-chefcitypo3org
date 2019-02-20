@@ -41,123 +41,125 @@ default['java']['oracle']['accept_oracle_download_terms'] = true
 #
 default['jenkins_chefci']['jenkins_plugins'] = %w(
   ace-editor:1.1
-  analysis-collector:1.52
+  analysis-collector:2.0.0
   analysis-core:1.95
-  ansicolor:0.5.2
-  ant:1.8
+  analysis-model-api:2.1.2
+  ansicolor:0.6.2
+  ant:1.9
   antisamy-markup-formatter:1.5
   apache-httpcomponents-client-4-api:4.5.5-3.0
   authentication-tokens:1.3
-  aws-credentials:1.23
-  aws-java-sdk:1.11.403
-  blueocean:1.9.0
-  blueocean-autofavorite:1.2.2
-  blueocean-bitbucket-pipeline:1.9.0
-  blueocean-commons:1.9.0
-  blueocean-config:1.9.0
-  blueocean-core-js:1.9.0
-  blueocean-dashboard:1.9.0
+  aws-credentials:1.24
+  aws-java-sdk:1.11.457
+  blueocean:1.11.1
+  blueocean-autofavorite:1.2.3
+  blueocean-bitbucket-pipeline:1.11.1
+  blueocean-commons:1.11.1
+  blueocean-config:1.11.1
+  blueocean-core-js:1.11.1
+  blueocean-dashboard:1.11.1
   blueocean-display-url:2.2.0
-  blueocean-events:1.9.0
-  blueocean-git-pipeline:1.9.0
-  blueocean-github-pipeline:1.9.0
-  blueocean-i18n:1.9.0
-  blueocean-jira:1.9.0
-  blueocean-jwt:1.9.0
-  blueocean-personalization:1.9.0
-  blueocean-pipeline-api-impl:1.9.0
-  blueocean-pipeline-editor:1.9.0
-  blueocean-pipeline-scm-api:1.9.0
-  blueocean-rest:1.9.0
-  blueocean-rest-impl:1.9.0
-  blueocean-web:1.9.0
+  blueocean-events:1.11.1
+  blueocean-git-pipeline:1.11.1
+  blueocean-github-pipeline:1.11.1
+  blueocean-i18n:1.11.1
+  blueocean-jira:1.11.1
+  blueocean-jwt:1.11.1
+  blueocean-personalization:1.11.1
+  blueocean-pipeline-api-impl:1.11.1
+  blueocean-pipeline-editor:1.11.1
+  blueocean-pipeline-scm-api:1.11.1
+  blueocean-rest:1.11.1
+  blueocean-rest-impl:1.11.1
+  blueocean-web:1.11.1
   bouncycastle-api:2.17
-  branch-api:2.0.20
-  buildtriggerbadge:2.9
+  branch-api:2.1.2
+  buildtriggerbadge:2.10
   clone-workspace-scm:0.6
-  cloudbees-bitbucket-branch-source:2.2.12
-  cloudbees-folder:6.6
-  command-launcher:1.2
+  cloudbees-bitbucket-branch-source:2.4.2
+  cloudbees-folder:6.7
+  command-launcher:1.3
   credentials:2.1.18
-  credentials-binding:1.16
-  display-url-api:2.2.0
+  credentials-binding:1.17
+  display-url-api:2.3.0
   docker-commons:1.13
   docker-workflow:1.17
-  durable-task:1.26
-  ec2:1.40.1
+  durable-task:1.29
+  ec2:1.42
   embeddable-build-status:1.9
   external-monitor-job:1.7
   favorite:2.3.2
-  gerrit-trigger:2.27.7
-  git:3.9.1
-  git-client:2.7.3
+  gerrit-trigger:2.29.0
+  git:3.9.3
+  git-client:2.7.6
   git-server:1.7
-  github:1.29.3
-  github-api:1.92
-  github-branch-source:2.4.0
-  github-oauth:0.29
+  github:1.29.4
+  github-api:1.95
+  github-branch-source:2.4.2
+  github-oauth:0.31
   github-organization-folder:1.6
   greenballs:1.15
   handlebars:1.1.1
   handy-uri-templates-2-api:2.1.6-1.0
-  htmlpublisher:1.17
+  htmlpublisher:1.18
   icon-shim:2.0.3
-  jackson2-api:2.8.11.3
+  jackson2-api:2.9.8
   javadoc:1.4
-  jdk-tool:1.1
-  jenkins-design-language:1.9.0
-  jira:3.0.2
-  job-dsl:1.70
+  jdk-tool:1.2
+  jenkins-design-language:1.11.1
+  jira:3.0.5
+  job-dsl:1.71
   jquery-detached:1.2.1
-  jsch:0.1.54.2
-  junit:1.26.1
+  jsch:0.1.55
+  junit:1.27
   ldap:1.20
-  lockable-resources:2.3
-  mailer:1.21
+  lockable-resources:2.4
+  mailer:1.23
   matrix-auth:2.3
   matrix-project:1.13
-  maven-plugin:3.1.2
-  mercurial:2.4
-  metrics:4.0.2.2
+  maven-plugin:3.2
+  mercurial:2.5
+  metrics:4.0.2.3
   momentjs:1.1.1
   node-iterator-api:1.5.0
   pam-auth:1.4
   pipeline-build-step:2.7
   pipeline-github-lib:1.0
-  pipeline-graph-analysis:1.7
-  pipeline-input-step:2.8
+  pipeline-graph-analysis:1.9
+  pipeline-input-step:2.9
   pipeline-milestone-step:1.3.1
-  pipeline-model-api:1.3.2
+  pipeline-model-api:1.3.4.1
   pipeline-model-declarative-agent:1.1.1
-  pipeline-model-definition:1.3.2
-  pipeline-model-extensions:1.3.2
+  pipeline-model-definition:1.3.4.1
+  pipeline-model-extensions:1.3.4.1
   pipeline-rest-api:2.10
   pipeline-stage-step:2.3
-  pipeline-stage-tags-metadata:1.3.2
+  pipeline-stage-tags-metadata:1.3.4.1
   pipeline-stage-view:2.10
   piwikanalytics:1.2.0
-  plain-credentials:1.4
+  plain-credentials:1.5
   PrioritySorter:3.6.0
   pubsub-light:1.12
-  scm-api:2.2.8
-  script-security:1.46
-  slack:2.3
-  sse-gateway:1.16
+  scm-api:2.3.0
+  script-security:1.53
+  slack:2.18
+  sse-gateway:1.17
   ssh-credentials:1.14
   structs:1.17
-  token-macro:2.5
-  variant:1.1
-  warnings:4.68
-  windows-slaves:1.3.1
+  token-macro:2.6
+  variant:1.2
+  warnings:5.0.1
+  warnings-ng:3.0.3
+  windows-slaves:1.4
   workflow-aggregator:2.6
-  workflow-api:2.30
-  workflow-basic-steps:2.11
-  workflow-cps:2.58
-  workflow-cps-global-lib:2.12
-  workflow-durable-task-step:2.22
-  workflow-job:2.26
+  workflow-api:2.33
+  workflow-basic-steps:2.14
+  workflow-cps:2.63
+  workflow-cps-global-lib:2.13
+  workflow-durable-task-step:2.29
+  workflow-job:2.31
   workflow-multibranch:2.20
   workflow-scm-step:2.7
-  workflow-step-api:2.16
-  workflow-support:2.21
+  workflow-step-api:2.19
+  workflow-support:3.2
 )
