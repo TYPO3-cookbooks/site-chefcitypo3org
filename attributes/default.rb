@@ -20,7 +20,7 @@ default['jenkins_chefci']['github_organization'] = 'TYPO3-cookbooks'
 #################
 # Jenkins Config
 #################
-default['jenkins']['master']['jvm_options'] = '-Djenkins.install.runSetupWizard=false -XX:MaxPermSize=256m'
+default['jenkins']['master']['jvm_options'] = '-Djenkins.install.runSetupWizard=false -Dhudson.diyChunking=false -XX:MaxPermSize=256m'
 
 #################
 # Java
